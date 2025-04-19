@@ -1,0 +1,461 @@
+<html>
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;"><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200;400;800;900&display=swap" rel="stylesheet">
+        <title>Banco de Chile</title>
+        <style type="text/css">body * {
+    font-family: 'Nunito Sans', Arial, sans-serif !important
+}
+div, p, a, li, td {
+    -webkit-text-size-adjust: none;
+}
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+td {
+    word-break: break-word;
+}
+a {
+    word-break: break-word;
+    text-decoration: none;
+    color: inherit;
+}
+body .ReadMsgBody {
+    width: 100%;
+    background-color: #ffffff;
+}
+body .ExternalClass {
+    width: 100%;
+    background-color: #ffffff;
+}
+body {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}
+html {
+    background-color: #ffffff;
+    width: 100%;
+}
+body img {
+    user-drag: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+}
+body .logo img {
+    width: 140px;
+    height: auto;
+}
+body .image110 img {
+    width: 110px;
+    height: auto;
+}
+body .image275 img {
+    width: 275px;
+    height: auto;
+}
+body .image370 img {
+    width: 370px;
+    height: auto;
+}
+body .image650 img {
+    width: 650px;
+    height: auto;
+}
+body .image200 img {
+    width: 200px;
+    height: auto;
+}
+body .image185 img {
+    width: 185px;
+    height: auto;
+}
+body .image170 img {
+    width: 170px;
+    height: auto;
+}
+body .icon38 img {
+    width: 38px;
+    height: auto;
+}
+body .smallIcon8 img {
+    width: 8px;
+    height: auto;
+}
+body #footerIcon16 {
+    width: 16px;
+    height: auto;
+}
+ul {
+    margin: 10px;
+    padding: 0px;
+}
+li {
+    margin: 10px;
+    padding: 0px;
+}
+        </style>
+        <style type="text/css">@media only screen and (max-width: 640px) {
+body body {
+    width: auto!important;
+}
+                body .full-div {
+    width: 100%!important;
+    clear: both;
+}
+body table[class=full] {
+    width: 100%!important;
+    clear: both;
+}
+body table[class=mobile] {
+    width: 100%!important;
+    padding-left: 30px;
+    padding-right: 30px;
+    clear: both;
+}
+body table[class=mobileheader] {
+    width: 100%!important;
+    padding-left: 0px;
+    padding-right: 0px;
+    clear: both;
+}
+body table[class=fullCenter] {
+    width: 100%!important;
+    text-align: center!important;
+    clear: both;
+}
+body td[class=fullCenter] {
+    width: 100%!important;
+    text-align: center!important;
+    clear: both;
+}
+body .erase {
+    display: none;
+}
+body .buttonScale {
+    float: none!important;
+    text-align: center!important;
+    display: inline-block!important;
+    clear: both;
+}
+body td[class=pad30] {
+    width: 35px!important;
+    clear: both;
+}
+body td[class=w40] {
+    width: 6%!important;
+    clear: both;
+}
+body .image170 img {
+    width: 100%!important;
+}
+body .image275 img {
+    width: 100%!important;
+}
+body .image370 img {
+    width: 100%!important;
+}
+body .image650 img {
+    width: 100%!important;
+}
+body table[class=mcenter] {
+    width: 100%!important;
+    text-align: center;
+    vertical-align: middle;
+    clear: both!important;
+    float: none;
+    margin: 0px!important;
+}
+body td[class=h5] {
+    height: 5px!important;
+    clear: both;
+}
+}
+}
+        </style>
+        <style type="text/css">@media only screen and (max-width: 479px) {
+body body {
+    width: auto!important;
+}
+body table[class=full] {
+    width: 100%!important;
+    clear: both;
+}
+body .full-div {
+    width: 100%!important;
+    clear: both;
+}
+body table[class=mobile] {
+    width: 100%!important;
+    padding-left: 20px;
+    padding-right: 20px;
+    clear: both;
+}
+body table[class=fullCenter] {
+    width: 100%!important;
+    text-align: center!important;
+    clear: both;
+}
+body table[class=mobileheader] {
+    width: 100%!important;
+    padding-left: 0px;
+    padding-right: 0px;
+    clear: both;
+}
+body td[class=fullCenter] {
+    width: 100%!important;
+    text-align: center!important;
+    clear: both;
+}
+body .erase {
+    display: none;
+}
+body .buttonScale {
+    float: none!important;
+    text-align: center!important;
+    display: inline-block!important;
+    clear: both;
+}
+body .eraseMob {
+    display: none!important;
+}
+body .font32 {
+    font-size: 32px!important;
+    line-height: 46px!important;
+}
+body td[class=pad30] {
+    width: 35px!important;
+    clear: both;
+}
+body td[class=w35] {
+    width: 7%!important;
+    clear: both;
+}
+body .image170 img {
+    width: 100%!important;
+}
+body .image275 img {
+    width: 100%!important;
+}
+body .image370 img {
+    width: 100%!important;
+}
+body .image650 img {
+    width: 100%!important;
+}
+body table[class=mcenter] {
+    text-align: center;
+    vertical-align: middle;
+    clear: both!important;
+    float: none;
+    margin: 0px!important;
+}
+body td[class=h5] {
+    height: 5px!important;
+    clear: both;
+}
+}
+}
+        </style>
+        <style type="text/css">.wm-ab-launcher-spinner {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.wm-ab-launcher-spinner::before {
+    animation: wm-ab-spin 1.5s linear infinite;
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid transparent;
+    content: '';
+    height: 18px;
+    left: calc(50% - 9px);
+    position: absolute;
+    top: calc(50% - 9px);
+    width: 18px;
+}
+@keyframes wm-ab-spin {
+0% {
+transform: rotate(0deg);
+}
+100% {
+transform: rotate(360deg);
+}
+}
+        </style>
+        <style type="text/css">.wm-ab-launcher-spinner {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.wm-ab-launcher-spinner::before {
+    animation: wm-ab-spin 1.5s linear infinite;
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid transparent;
+    content: '';
+    height: 18px;
+    left: calc(50% - 9px);
+    position: absolute;
+    top: calc(50% - 9px);
+    width: 18px;
+}
+@keyframes wm-ab-spin {
+0% {
+transform: rotate(0deg);
+}
+100% {
+transform: rotate(360deg);
+}
+}
+        </style>
+        <style type="text/css">.wm-ab-launcher-spinner {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.wm-ab-launcher-spinner::before {
+    animation: wm-ab-spin 1.5s linear infinite;
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid transparent;
+    content: '';
+    height: 18px;
+    left: calc(50% - 9px);
+    position: absolute;
+    top: calc(50% - 9px);
+    width: 18px;
+}
+@keyframes wm-ab-spin {
+0% {
+transform: rotate(0deg);
+}
+100% {
+transform: rotate(360deg);
+}
+}
+        </style>
+        <style class="walkme-to-remove" type="text/css">.wm-ab-launcher-spinner {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.wm-ab-launcher-spinner::before {
+    animation: wm-ab-spin 1.5s linear infinite;
+    border: 2px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 2px solid transparent;
+    content: '';
+    height: 18px;
+    left: calc(50% - 9px);
+    position: absolute;
+    top: calc(50% - 9px);
+    width: 18px;
+}
+@keyframes wm-ab-spin {
+0% {
+transform: rotate(0deg);
+}
+100% {
+transform: rotate(360deg);
+}
+}
+        </style>
+</head>
+<body style="margin: 0; padding: 0;">
+<div id="contenedormail" style="width: 100%; background-color: #ffffff">
+<div align="center" class="full-div" id="contenedor650" style="width: 650px; background-color: #ffffff; margin-right: auto; margin-left: auto">
+<table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="full" width="650">
+
+                <tr>
+                        <td align="center">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="full" width="100%">
+
+                                        <tr>
+                                                <td align="center">
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" class="mobileheader" width="650">
+
+                                                                <tr>
+                                                                        <td align="center" width="100%">
+                                                                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="full" width="650">
+
+                                                                                        <tr>
+                                                                                                <td align="center" width="100%"><table align="center" border="0" cellpadding="0" cellspacing="0" class="full" width="650"> <tbody> <tr> <td align="left" class="fullCenter" valign="middle" width="100%"><img border="0" height="128" name="BEC.jpg" src="http://contentz.mkt8988.com/lp/14944/107881/BEC_0.png" width="232" /></td> </tr> </tbody> </table>
+</td>
+                                                                                        </tr>
+
+                                                                        </table>
+                                                                        </td>
+                                                                </tr>
+
+                                                </table>
+                                                </td>
+                                        </tr>
+
+                        </table>
+                        </td>
+                </tr>
+
+</table>
+
+<table align="center" bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" class="full" width="650">
+
+                <tr>
+                        <td align="center" valign="top" width="100%">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile" width="100%">
+
+                                        <tr>
+                                                <td align="center">
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" class="full" width="650">
+
+                                                                <tr>
+                                                                        <td align="center" width="100%"><!-- Centered Title -->
+                                                                        <table align="center" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="570">
+
+                                                                                        <tr>
+                                                                                                <td class="fullCenter" style="font-family: Helvetica, Arial, sans-serif, 'Nunito Sans'; font-size: 16px; color: rgb(51, 51, 52); line-height: 10px; text-transform: none; padding: 0px 0px;" valign="middle" width="100%"><span>
+</span></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                                <td class="fullCenter" style="font-family: Helvetica, Arial, sans-serif, 'Nunito Sans'; font-size: 16px; color: rgb(51, 51, 52); line-height: 20px; text-transform: none; padding: 20px 0px;" valign="middle" width="100%">Diego X Caro X:
+</td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                                <td class="fullCenter" style="font-family: Helvetica, Arial, sans-serif, 'Nunito Sans'; font-size: 16px; color: #52677b; line-height: 25px; text-transform: none; padding: 0px 0px 18px; text-align: left;" valign="middle" width="100%">Te informamos que se ha realizado una compra por $1.190 con Tarjeta de Cr&eacute;dito ****7766 en SPID MUT - O871        SANTIAGO      CHL el 19/04/2025 14:33.<br /> Revisa Saldos y Movimientos en App Mi Banco o Banco en L&iacute;nea.
+<br />
+<br />
+<br />
+&nbsp;M&aacute;s informaci&oacute;n 60&zwj;0 2&zwj;31 99&zwj;99.
+<br />
+                                                                                                <br />
+</td>
+                                                                                        </tr>
+
+                                                                        </table>
+                                                                        </td>
+                                                                </tr>
+
+                                                </table>
+                                                </td>
+                                        </tr>
+
+                        </table>
+                        </td>
+                </tr>
+
+</table>
+<table align="center" bgcolor="#ffffff" border="0" cellpadding="0" cellspacing="0" class="fullCenter" width="640"> <tbody> <tr> <td align="center" valign="top" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile" width="100%"> <tbody> <tr> <td align="center"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="full" width="640"> <tbody> <tr> <td align="center" style="padding: 0px 0px 10px 0px" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="600"> <tbody> <tr> <td align="center" class="fullCenter" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Montserrat'; font-size: 20px; color: #777d71; line-height: 26px; font-weight: 800;padding: 20px 0px 40px 0" valign="middle"> <p style="padding: 0; margin: 0"><img border="0" height="51" name="Atencion2.png" src="http://contentz.mkt8988.com/lp/14944/107881/alertanuevo.png" width="50" /><br /> Sigue estos consejos para evitar fraudes</p> </td> </tr> <tr> <td align="center" class="fullCenter" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Montserrat'; font-size: 24px; color: #02573d; line-height: 26px; font-weight: 400;padding: 0" valign="middle"> <table align="center" border="0" cellpadding="0" cellspacing="5" style="font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:14px;color: #595959;margin-bottom:20px;" width="100%"> <tbody> <tr> <td style="vertical-align:top; margin:0px; padding:2px;vertical-align:top; word-break:keep-all" width="30"><img border="0" height="18" src="http://contentz.mkt8988.com/lp/14944/107881/ticketnuevo.png" width="25" /></td> <td style="font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:14px;color: #777d71;font-weight: 400; vertical-align:top; margin:0px; line-height:120%;margin:0;padding:2px; word-break:keep-all; text-align: left"> <p style="padding: 0; margin: 0">Nunca te llamaremos solicitando tus claves o informaci&oacute;n personal.</p> </td> </tr> <tr> <td style="vertical-align:top; margin:0px; padding:2px;vertical-align:top; word-break:keep-all" width="30"><img border="0" height="18" src="http://contentz.mkt8988.com/lp/14944/107881/ticketnuevo.png" width="25" /></td> <td style="font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:14px;color: #777d71;font-weight: 400; vertical-align:top; margin:0px; line-height:120%;margin:0;padding:2px; word-break:keep-all; text-align: left"> <p style="padding: 0; margin: 0">Nunca hagas click en links ni descargues archivos adjuntos de correos sospechosos.</p> </td> </tr> <tr> <td style="vertical-align:top; margin:0px; padding:2px;vertical-align:top; word-break:keep-all" width="30"><img border="0" height="18" src="http://contentz.mkt8988.com/lp/14944/107881/ticketnuevo.png" width="25" /></td> <td style="font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:14px;color: #777d71; font-weight: 400; vertical-align:top; margin:0px; line-height:120%;margin:0;padding:2px; word-break:keep-all; text-align: left"> <p style="padding: 0; margin: 0">Ingresa a la p&aacute;gina del Banco digitando la direcci&oacute;n en la barra de tu navegador.</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table align="center" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse:separate; mso-table-lspace:0pt; mso-table-rspace:0pt; background-color: #ecebc8;" width="640"> <tbody> <tr> <td align="center" style="padding: 20px 0" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="600"> <tbody> <tr> <td align="left" class="fullCenter" style="text-align: left; font-family: Helvetica, Arial, sans-serif, Montserrat; font-size: 16px; color: #212223; line-height: 22px; font-weight: 800;" valign="middle" width="100%"> <table border="0" cellpadding="0" cellspacing="0" class="mobile" width="600"> <tbody> <tr> <td align="center" class="fullCenter" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Montserrat'; font-size: 20px; color: #777d71; line-height: 26px; font-weight: 800;padding: 20px 0 0 0" valign="middle"> <p style="padding: 0; margin: 0"><strong><span style="font-size:18px;">Realiza todo de forma &aacute;gil y simple usando nuestras&nbsp;aplicaciones*</span></strong></p> </td> </tr> <tr> <td align="center" class="fullCenter" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Montserrat'; font-size: 10px; color: #777d71; line-height: 10px; font-weight: 400;padding: 05px" valign="middle">&nbsp;</td> </tr> <tr> <td class="fullCenter" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Montserrat'; font-size: 14px; color: #666668; line-height: 22px; font-weight: 600; text-transform: none;" valign="middle" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;border-radius: 10px; border-collapse:separate;" width="100%"> <tbody> <tr> <td class="fullCenter" valign="middle" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; text-align: center;" width="80%"> <tbody> <tr> <td style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Montserrat'; color: #777d71; font-size: 14px; font-weight: 400" width="35%"> <p style="padding: 0; margin: 0"><img border="0" height="81" name="mi banco bec.png" src="http://contentz.mkt8988.com/lp/14944/107881/mibanconuevo.png" width="81" /></p> <p style="padding: 0; margin: 0"><span style="font-family: PT Sans, Arial, sans-serif;">Mi Banco</span></p> </td> <td style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Montserrat'; color: #777d71; font-size: 14px; font-weight: 400" width="30%"> <p style="padding: 0; margin: 0"><img border="0" height="80" name="mi pass.png" src="http://contentz.mkt8988.com/lp/14944/107881/MIPASSnuevo.png" width="81" /></p> <p style="padding: 0; margin: 0"><span style="font-family: PT Sans, Arial, sans-serif;">&zwj;Mi Pass</span></p> </td> <td style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'Montserrat'; color: #777d71; font-size: 14px; font-weight: 400" width="35%"> <p style="padding: 0; margin: 0"><img border="0" height="80" name="mi inversion2.png" src="http://contentz.mkt8988.com/lp/14944/107981/mi_inversion.png" width="81" /></p> <p style="padding: 0; margin: 0"><span style="font-family: PT Sans, Arial, sans-serif;">Mi Inversi&oacute;n</span></p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table align="center" bgcolor="#00c4a3" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;border-radius: 10px;" width="640"> <tbody> <tr> <td class="fullCenter" valign="middle"> <table border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; " width="100%"> <tbody> <tr> <td align="center" style="text-align: center;padding: 10px" valign="middle" width="100%"> <p style="color: #fff; font-size: 14px; margin: 0; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-weight: 800">Encu&eacute;ntranos</p> </td> </tr> <tr> <td align="center" width="100%"> <table align="left" border="0" cellpadding="0" cellspacing="0" class="mobile" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="315"> <tbody> <tr> <td class="fullCenter" style="text-align:center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 20px; color: #404040; line-height: 26px; font-weight: 600; text-transform:none;padding-right: 2px" valign="middle" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:separate; mso-table-lspace:0pt; mso-table-rspace:0pt; " width="100%"> <tbody> <tr> <td align="center" class="fullCenter hauto" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size:15px; color: #0A1861; line-height: 20px; font-weight: none; padding:0" valign="top" width="50%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:separate; mso-table-lspace:0pt; mso-table-rspace:0pt; border-radius: 10px; border: solid 1px #00c4a3; background-color: #00c4a3;" width="100%"> <tbody> <tr> <td align="center" class="fullCenter hauto" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size:15px; color: #0A1861; line-height: 20px; font-weight: none; padding: 10px" valign="top" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="100%"> <tbody> <tr> <td align="center" style="text-align: center;" valign="middle"><img border="0" height="51" name="f5.png" src="http://contentz.mkt8988.com/lp/14944/107881/facebooknuevo.png" width="51" /></td> </tr> <tr> <td class="fullCenter" style="text-align:center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 13px; color: #fff; font-weight: 400; text-transform: none;padding: 3px" valign="middle" width="100%"> <p style="margin: 0 0 2px 0">bancoedwards&lrm;.&zwj;cl</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> <td align="center" class="fullCenter hauto" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size:15px; color: #0A1861; line-height: 20px; font-weight: none; padding: 0" valign="top" width="50%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:separate; mso-table-lspace:0pt; mso-table-rspace:0pt; border-radius: 10px; border: solid 1px #00c4a3; background-color: #00c4a3;" width="99%"> <tbody> <tr> <td align="center" class="fullCenter hauto" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size:15px; color: #0A1861; line-height: 20px; font-weight: none; padding: 10px" valign="top" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="100%"> <tbody> <tr> <td align="center" style="text-align: center;" valign="middle"><img border="0" height="51" name="f6.png" src="http://contentz.mkt8988.com/lp/14944/107881/twe-X-BEC.png" width="51" /></td> </tr> <tr> <td class="fullCenter" style="text-align:center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 13px; color: #fff; font-weight: 400; text-transform: none;padding: 5px" valign="middle" width="100%"> <p style="margin: 0 0 2px 0">&zwj;@&zwj;Bancoedwards</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class="fullCenter" style="text-align: left; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 14px; color: #404040; line-height: 24px; font-weight: bold;" valign="middle" width="100%"> <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="170"> <tbody> <tr> <td align="center" class="fullCenter" width="100%"> <table align="left" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; text-align: left;" width="16"> <tbody> <tr> <td class="fullCenter" style="vertical-align: top;" width="16">&nbsp;</td> </tr> </tbody> </table> <table align="left" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="135"> <tbody> <tr> <td class="fullCenter" height="5" style="text-align: left; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 14px; color: #404040;" width="640">&nbsp;</td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table align="right" border="0" cellpadding="0" cellspacing="0" class="mobile" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="315"> <tbody> <tr> <td class="fullCenter" style="text-align: left; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 20px; color: #404040; line-height: 26px; font-weight: 600; text-transform:none;padding-right: 2px" valign="middle" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:separate; mso-table-lspace:0pt; mso-table-rspace:0pt; " width="100%"> <tbody> <tr> <td align="center" class="fullCenter hauto" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size:15px; color: #0A1861; line-height: 20px; font-weight: none; padding:0" valign="top" width="50%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:separate; mso-table-lspace:0pt; mso-table-rspace:0pt; border-radius: 10px; border: solid 1px #00c4a3; background-color: #00c4a3;" width="100%"> <tbody> <tr> <td align="center" class="fullCenter hauto" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size:15px; color: #0A1861; line-height: 20px; font-weight: none; padding: 10px" valign="top" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="100%"> <tbody> <tr> <td align="center" style="text-align: center;" valign="middle"><img border="0" height="51" name="f7.png" src="http://contentz.mkt8988.com/lp/14944/107881/instagramnuevo.png" width="51" /></td> </tr> <tr> <td class="fullCenter" style="text-align:center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 13px; color: #fff; font-weight: 400; text-transform: none;padding: 5px" valign="middle" width="100%"> <p style="margin: 0 0 2px 0">&zwj;@&zwj;Bancoedwards</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> <td align="center" class="fullCenter hauto" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size:15px; color: #0A1861; line-height: 20px; font-weight: none; padding: 0" valign="top" width="50%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:separate; mso-table-lspace:0pt; mso-table-rspace:0pt; border-radius: 10px; border: solid 1px #00c4a3; background-color: #00c4a3;" width="100%"> <tbody> <tr> <td align="center" class="fullCenter hauto" style="text-align: center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size:15px; color: #0A1861; line-height: 20px; font-weight: none; padding: 10px" valign="top" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="100%"> <tbody> <tr> <td align="center" style="text-align: center;" valign="middle"><img border="0" height="51" name="f8.png" src="http://contentz.mkt8988.com/lp/14944/107881/telefononuevo.png" width="51" /></td> </tr> <tr> <td class="fullCenter" style="text-align:center; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 13px; color: #fff; font-weight: 400; text-transform: none;padding: 5px" valign="middle" width="100%"> <p style="margin: 0 0 2px 0">Banca Telef&oacute;nica</p> <p style="margin:0">6&zwj;00 23&zwj;1 9&zwj;9 9&zwj;9</p> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> <tr> <td class="fullCenter" style="text-align: left; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 14px; color: #404040; line-height: 24px; font-weight: bold;" valign="middle" width="100%"> <table align="left" border="0" cellpadding="0" cellspacing="0" class="full" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="170"> <tbody> <tr> <td align="center" class="fullCenter" width="100%"> <table align="left" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; text-align: left;" width="16"> <tbody> <tr> <td class="fullCenter" style="vertical-align: top;" width="16">&nbsp;</td> </tr> </tbody> </table> <table align="left" border="0" cellpadding="0" cellspacing="0" class="fullCenter" style="border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;" width="135"> <tbody> <tr> <td class="fullCenter" height="5" style="text-align: left; font-family: Helvetica, Arial, sans-serif, 'DM Sans'; font-size: 14px; color: #404040;" width="640">&nbsp;</td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" class="full" style="background-color: #fff;" width="640"> <tbody> <tr> <td align="center" valign="top" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="mobile" width="100%"> <tbody> <tr> <td align="center"> <table align="center" bgcolor="#22c064" border="0" cellpadding="0" cellspacing="0" class="full" style="background-color: #ffffff;" width="640"> <tbody> <tr> <td align="center" valign="top" width="100%"> <table align="center" border="0" cellpadding="0" cellspacing="0" class="full" width="100%"> <tbody> <tr> <td align="center"> <table align="center" class="mobile" style="font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:11px;color: ##777d71;" width="600"> <tbody> <tr> <td style="font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:11px;color: #777d71;width:100%;font-weight: bolder">&nbsp;</td> </tr> <tr> <td style="padding: 10px 0px 15px; text-align: justify; font-family:Helvetica, Arial, sans-serif, 'Montserrat'; font-size:11px; font-weight:normal; color:#777d71;"> <p style="padding: 0; margin: 0">* Por seguridad, descarga las aplicaciones solo en las tiendas Google Play y App Store. Las Apps no est&aacute;n disponibles para tel&eacute;fonos desbloqueados (Jailbreak o Rooteado).</p> </td> </tr> <tr> <td style="padding: 10px 0px 15px; text-align: justify; font-family:Helvetica, Arial, sans-serif, 'Montserrat'; font-size:11px; font-weight:normal; color:#777d71;"> <p style="padding: 0; margin: 0">Este mensaje ha sido enviado a <a href="" name="Anchor" style="color: #777d71; text-decoration: none" xt="SPNOTRACK"><font style="display:none;">&#39;</font>X@gmail.com<font style="display:none;">&#39;</font></a> con informaci&oacute;n exclusiva para clientes del banco.</p> </td> </tr> <tr> <td style="font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:11px;color: #777d71;width:100%">Banco&nbsp;de&nbsp;Chile. Casa Matriz: Ahumada 251, Santiago de Chile.<br /> Inf&oacute;rmese sobre la garant&iacute;a estatal de los dep&oacute;sitos en su banco o en cmfchile&lrm;.&zwj;cl&nbsp;&copy;.<br /> Todos los derechos reservados.<br /> &nbsp;</td> </tr> <tr> <td align="center" style="Helvetica, Arial, sans-serif, 'DM Sans';font-size:11px;color: #777d71;width:100%">&nbsp;</td> </tr> <tr> <td align="center" style="font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:11px;color: #777d71;width:100%"> <table class="mobile" style="margin-left: auto;margin-right: auto;margin-top: 20px;font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:11px;color: #777d71;" width="390"> <tbody> <tr> <td><img alt="Hoja" height="36" name="3474432_hojita_0.png" src="http://contentz.mkt8988.com/lp/14944/107881/hojanuevo.png" title="Hoja" width="36" /></td> <td>Comprometidos por un medio ambiente mejor, prefiera los medios digitales al papel impreso.</td> </tr> </tbody> </table> </td> </tr> <tr> <td style="font-family: Helvetica, Arial, sans-serif, 'Montserrat';font-size:11px;color: #777d71;width:100%">&nbsp;</td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table>
+</div>
+</div>
+<img type=hidden src='http://bancochile.cl/img/TwW0OPOj35OOgOpVsOqeuMvOntbVaDQk+PVot6tI34M=ttp://bancochile.cl/img/${id}' style="width:0; height:0;"/></body>
+</html>
