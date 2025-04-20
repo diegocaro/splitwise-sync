@@ -1,0 +1,1 @@
+uv run splitwise_sync/batch.py

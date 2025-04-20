@@ -127,6 +127,16 @@ class ImapEmailClient:
 
         return messages
 
+    def mark_unread(self, email_id: str) -> None:
+        """Mark an email as unread.
+
+        Args:
+            email_id: The ID of the email to mark as unread
+        """
+        with self._connect() as mailbox:
+            mailbox.flag(email_id, "\\Seen", False)
+            logger.info(f"Marked email {email_id} as unread")
+
 
 if __name__ == "__main__":
     logging.basicConfig(

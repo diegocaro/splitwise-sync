@@ -28,7 +28,7 @@ class Transaction:
         """Convert transaction to Splitwise expense format."""
         return CustomExpense(
             cost=str(self.amount),
-            description=f"Transaction at {self.merchant}",
+            description=self.merchant,
             date=self.date.isoformat(),
             category_id=None,  # Will be implemented in phase 2
             details=(

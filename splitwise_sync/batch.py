@@ -33,7 +33,7 @@ class SplitwiseSync:
         # Fetch unprocessed emails
         logger.info("Fetching unprocessed emails...")
         emails = self.email_client.fetch_unread_from_sender(
-            "enviodigital@bancoedwards.cl"
+            "enviodigital@bancoedwards.cl", mark_as_read=not self.dry_run
         )
         return emails
 
@@ -46,14 +46,20 @@ class SplitwiseSync:
         created_expenses: list[Expense] = []
         for email in emails:
             logger.info(f"Processing email: {email.subject}")
-            transaction = self.receipt_parser.parse_email(email)
-            if self.dry_run:
-                logger.info(f"Dry run: {transaction}")
+            try:
+                transaction = self.receipt_parser.parse_email(email)
+                if self.dry_run:
+                    logger.info(f"Dry run: {transaction}")
+                    continue
+
+                created = self.splitwise_client.create_expense(
+                    transaction.to_splitwise_expense()
+                )
+                created_expenses.append(created)
+            except:
+                self.email_client.mark_unread(email.id)
+                logger.exception(f"Failed to create expense for email: {email.id}")
                 continue
-            created = self.splitwise_client.create_expense(
-                transaction.to_splitwise_expense()
-            )
-            created_expenses.append(created)
 
         return created_expenses
 
@@ -89,7 +95,6 @@ def main() -> None:
         "-o",
         "--output",
         type=Path,
-        default=Path("emails.json"),
         help="Output file for email transactions in JSON format",
     )
     args = parser.parse_args()
