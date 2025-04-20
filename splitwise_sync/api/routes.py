@@ -82,5 +82,8 @@ async def health_check() -> Dict[str, str]:
     splitwise_client = SplitwiseClient()
     ret = splitwise_client.check_systems()
     if not ret:
-        return {"status": "error", "message": "Splitwise Sync API is not reachable"}
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail={"status": "error", "message": "Splitwise Sync API is not reachable"},
+        )
     return {"status": "ok", "message": "Splitwise Sync API is running"}
