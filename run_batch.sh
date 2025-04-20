@@ -1,1 +1,2 @@
-uv run splitwise_sync/batch.py
+source .venv/bin/activate
+python -m splitwise_sync.batch

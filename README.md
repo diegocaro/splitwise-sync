@@ -88,6 +88,17 @@ This project uses:
 - `mypy` for type checking
 - `ruff` for linting
 
+### Continuous Integration
+
+This project uses GitHub Actions for continuous integration. The workflow automatically runs tests and quality checks on push to the main branch or when creating pull requests. The workflow:
+
+1. Sets up Python 3.12
+2. Installs dependencies using uv
+3. Runs pytest to execute all tests
+~~4. Performs code quality checks with ruff, black, isort, and mypy~~
+
+You can see the workflow configuration in `.github/workflows/tests.yml`.
+
 ## License
 
 MIT
