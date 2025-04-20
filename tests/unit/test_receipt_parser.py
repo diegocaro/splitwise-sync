@@ -79,7 +79,7 @@ def test_parse_email_manually() -> None:
 
     # Verify expense format - access properties directly since CustomExpense is a dataclass
     assert expense.cost == "1190.0"
-    assert expense.description == f"Transaction at {merchant}"
+    assert expense.description == merchant
     assert expense.date == parsed_date.isoformat()
     assert expense.category_id is None
     assert (
