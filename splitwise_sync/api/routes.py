@@ -32,13 +32,12 @@ async def process_email(email_data: EmailData) -> ExpenseResponse:
         Response with details of the created expense or error
     """
     try:
-        email_date = datetime.fromisoformat(email_data.date.replace("Z", "+00:00"))
 
         email = EmailMessage(
             id="api-request",
             subject=email_data.subject,
             sender=email_data.sender,
-            date=email_date,
+            date=email_data.date,
             body=email_data.body,
         )
 

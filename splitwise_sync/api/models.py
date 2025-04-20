@@ -1,5 +1,6 @@
 """Data models for the Splitwise Sync API."""
 
+from datetime import datetime
 from typing import Any, Dict, Optional
 
 from pydantic import BaseModel, Field
@@ -10,7 +11,7 @@ class EmailData(BaseModel):
 
     subject: str = Field(..., description="Email subject")
     sender: str = Field(..., description="Email sender address")
-    date: str = Field(..., description="Email date ISO format")
+    date: datetime = Field(..., description="Email date ISO format")
     body: str = Field(..., description="Email body content (text or HTML)")
 
 
