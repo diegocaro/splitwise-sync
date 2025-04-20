@@ -64,12 +64,22 @@ This application automates the process of adding transactions to Splitwise by pa
 2. Get your Consumer Key and Secret
 3. Add these credentials to your `.env` file
 
-## Usage batch version
+## Usage
+
+### Batch version
 
 Run the application to process new emails and sync transactions:
 
 ```
 python -m splitwise_sync.batch
+```
+
+### API version
+
+Run the FastAPI server with Uvicorn:
+
+```
+uvicorn splitwise_sync.main:app --host 0.0.0.0 --port 8000
 ```
 
 ## Testing
