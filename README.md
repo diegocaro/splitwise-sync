@@ -71,7 +71,12 @@ This application automates the process of adding transactions to Splitwise by pa
 Run the application to process new emails and sync transactions:
 
 ```
-python -m splitwise_sync.batch
+splitwise-sync
+```
+
+Or alternatively:
+```
+python -m splitwise_sync.cli.batch
 ```
 
 ## Testing

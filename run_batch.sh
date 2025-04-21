@@ -1,4 +1,4 @@
 #!/bin/bash
 source .venv/bin/activate
-python -m splitwise_sync.batch
+python -m splitwise_sync.cli.batch
 

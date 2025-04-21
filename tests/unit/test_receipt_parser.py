@@ -6,8 +6,8 @@ from typing import Any, Dict
 
 import pytest
 
-from splitwise_sync.email_parser.email_client import EmailMessage
-from splitwise_sync.email_parser.receipt_parser import ReceiptParser, Transaction
+from splitwise_sync.core.email_client import EmailMessage
+from splitwise_sync.core.receipt_parser import ReceiptParser, Transaction
 
 
 @pytest.fixture

@@ -7,10 +7,11 @@ from pathlib import Path
 
 from splitwise.expense import Expense  # type: ignore
 
-from splitwise_sync.email_parser.email_client import EmailMessage, ImapEmailClient
-from splitwise_sync.email_parser.receipt_parser import ReceiptParser
-from splitwise_sync.splitwise_api.splitwise_client import SplitwiseClient
-from splitwise_sync.utils import config as Config
+from splitwise_sync import config as Config
+from splitwise_sync.core.email_client import ImapEmailClient
+from splitwise_sync.core.models import EmailMessage
+from splitwise_sync.core.receipt_parser import ReceiptParser
+from splitwise_sync.core.splitwise_client import SplitwiseClient
 
 logging.basicConfig(
     level=logging.DEBUG if Config.DEBUG else logging.INFO,
