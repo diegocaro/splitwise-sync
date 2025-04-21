@@ -2,18 +2,18 @@
 
 import logging
 
-from splitwise import Splitwise
-from splitwise.expense import Expense
-from splitwise.user import ExpenseUser
+from splitwise import Splitwise  # type: ignore
+from splitwise.expense import Expense  # type: ignore
+from splitwise.user import ExpenseUser  # type: ignore
 
-from splitwise_sync.splitwise_api.custom_expense import CustomExpense
-from splitwise_sync.utils.config import (
+from ..config import (
     DEFAULT_FRIEND_ID,
     DEFAULT_SPLIT,
     SPLITWISE_API_KEY,
     SPLITWISE_CONSUMER_KEY,
     SPLITWISE_CONSUMER_SECRET,
 )
+from .models import CustomExpense
 
 logger = logging.getLogger(__name__)
 
@@ -47,18 +47,18 @@ class SplitwiseClient:
         )
 
         new = Expense()
-        new.setCost(expense.cost)
-        new.setDescription(expense.description)
-        new.setDate(expense.date)
+        new.setCost(expense.cost)  # type: ignore
+        new.setDescription(expense.description)  # type: ignore
+        new.setDate(expense.date)  # type: ignore
 
         if expense.category_id:
-            new.setCategory(expense.category_id)
+            new.setCategory(expense.category_id)  # type: ignore
 
         if expense.details:
-            new.setDetails(expense.details)
+            new.setDetails(expense.details)  # type: ignore
 
         if expense.currency_code:
-            new.setCurrencyCode(expense.currency_code)
+            new.setCurrencyCode(expense.currency_code)  # type: ignore
 
         # Set current user as the payer and owner of the expense
         user = self.client.getCurrentUser()
@@ -71,23 +71,23 @@ class SplitwiseClient:
         user2_split = float(expense.cost) - user1_split
 
         user1 = ExpenseUser()
-        user1.setId(user.id)
-        user1.setPaidShare(expense.cost)
-        user1.setOwedShare(user1_split)
+        user1.setId(user.id)  # type: ignore
+        user1.setPaidShare(expense.cost)  # type: ignore
+        user1.setOwedShare(user1_split)  # type: ignore
 
         user2 = ExpenseUser()
-        user2.setId(self.friend_id)
-        user2.setPaidShare("0.0")
-        user2.setOwedShare(user2_split)
+        user2.setId(self.friend_id)  # type: ignore
+        user2.setPaidShare("0.0")  # type: ignore
+        user2.setOwedShare(user2_split)  # type: ignore
 
-        users.append(user1)
-        users.append(user2)
-        new.setUsers(users)
+        users.append(user1)  # type: ignore
+        users.append(user2)  # type: ignore
+        new.setUsers(users)  # type: ignore
 
-        created_expense, errors = self.client.createExpense(new)
-        if errors:
-            logger.error("Error creating expense: %s", errors.errors)
-            raise Exception(f"Error creating expense: {errors.errors}")
+        created_expense, errors = self.client.createExpense(new)  # type: ignore
+        if errors or not created_expense:
+            logger.error("Error creating expense: %s", errors.errors)  # type: ignore
+            raise Exception(f"Error creating expense: {errors.errors}")  # type: ignore
         logger.debug("Expense created successfully: %s", created_expense)
         return created_expense
 

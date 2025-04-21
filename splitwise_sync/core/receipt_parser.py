@@ -1,47 +1,12 @@
 """Receipt parser for extracting transaction data from bank emails."""
 
 import re
-from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Optional
-from zoneinfo import ZoneInfo  # Import ZoneInfo for timezone support
+from zoneinfo import ZoneInfo
 
 from bs4 import BeautifulSoup
 
-from ..splitwise_api.splitwise_client import CustomExpense
-from .email_client import EmailMessage
-
-
-@dataclass
-class Transaction:
-    """Model representing a bank transaction extracted from an email."""
-
-    amount: float
-    currency: str
-    date: datetime
-    merchant: str
-    bank_reference: str
-    text: Optional[str] = None
-    category: Optional[str] = None
-
-    def to_splitwise_expense(self) -> CustomExpense:
-        """Convert transaction to Splitwise expense format."""
-        return CustomExpense(
-            cost=str(self.amount),
-            description=self.merchant,
-            date=self.date.isoformat(),
-            category_id=None,  # Will be implemented in phase 2
-            details=(
-                self.text if self.text else f"Bank reference: {self.bank_reference}"
-            ),
-            currency_code=self.currency,
-        )
-
-    def to_dict(self) -> dict[str, str]:
-        """Convert transaction to dictionary format."""
-        ans = asdict(self)
-        ans["date"] = self.date.isoformat()
-        return ans
+from .models import EmailMessage, Transaction
 
 
 class ReceiptParser:

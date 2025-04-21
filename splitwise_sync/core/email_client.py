@@ -2,14 +2,14 @@
 
 import logging
 from dataclasses import dataclass
-from datetime import datetime
 from typing import List, Optional
 
 from imap_tools.mailbox import MailBox
 from imap_tools.message import MailMessage
 from imap_tools.query import AND
 
-from splitwise_sync.utils.config import GMAIL_APP_PASSWORD, GMAIL_USERNAME
+from ..config import GMAIL_APP_PASSWORD, GMAIL_USERNAME
+from .models import EmailMessage
 
 logger = logging.getLogger(__name__)
 
@@ -20,27 +20,6 @@ class EmailCredentials:
 
     username: str
     password: str
-
-
-@dataclass
-class EmailMessage:
-    """Model for an email message."""
-
-    id: str
-    subject: str
-    sender: str
-    date: datetime
-    body: str
-
-    def to_dict(self) -> dict[str, str]:
-        """Convert the email message to a dictionary."""
-        return {
-            "id": self.id,
-            "subject": self.subject,
-            "sender": self.sender,
-            "date": self.date.isoformat(),
-            "body": self.body,
-        }
 
 
 class ImapEmailClient:
