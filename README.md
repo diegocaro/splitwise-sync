@@ -74,14 +74,6 @@ Run the application to process new emails and sync transactions:
 python -m splitwise_sync.batch
 ```
 
-### API version
-
-Run the FastAPI server with Uvicorn:
-
-```
-uvicorn splitwise_sync.main:app --host 0.0.0.0 --port 8000
-```
-
 ## Testing
 
 Run tests with pytest:
