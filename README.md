@@ -1,15 +1,127 @@
 # Splitwise Sync
 
-Automatically sync bank transactions to Splitwise based on email receipts.
+Manda tus gastos al Splitwise desde los mails del banco.
+
+[English version below | Versión en inglés más abajo](#english-version)
+
+## Descripción general
+
+Esta aplicación automatiza el proceso de agregar transacciones a Splitwise analizando emails bancarios. Está diseñada para funcionar en fases:
+
+1. **Fase 1 (wip)**: Analiza emails bancarios desde la carpeta "Recibos" de Gmail y agrega gastos a Splitwise para ti mismo. Al menos para mi banco.
+2. **Fase 2 (wip)**: Determina inteligentemente si una transacción fue compartida con una pareja y crea transacciones divididas según corresponda.
+3. **Fase 3**: Etiqueta automáticamente las transacciones con categorías apropiadas usando aprendizaje automático.
+4. **Fase 4 event-driven**: Implementa una solución basada en eventos para agregar transacciones a Splitwise.
+
+## Bancos chilenos soportados
+
+1. (listo) Banco de Chile
+2. Banco BCI
+3. Banco Santander
+4. Banco del Estado
+
+## Configuración
+
+### Prerrequisitos
+
+- Python 3.12+
+- [uv](https://github.com/astral-sh/uv) para gestión de paquetes
+- Cuenta de Gmail con emails de recibos bancarios
+- Cuenta de Splitwise y credenciales API
+
+### Instalación
+
+1. Clona el repositorio:
+   ```
+   git clone https://github.com/yourusername/splitwise-sync.git
+   cd splitwise-sync
+   ```
+
+2. Crea un entorno virtual e instala dependencias usando uv:
+   ```
+   uv venv --python 3.12.0
+   source .venv/bin/activate 
+   uv pip install .           # Instala dependencias principales
+   uv pip install ".[dev]"    # (opcional) Instala dependencias de desarrollo
+   ```
+
+3. Crea un archivo `.env` basado en el ejemplo proporcionado:
+   ```
+   cp .env.example .env
+   ```
+
+4. Edita el archivo `.env` con tus credenciales de Gmail y API de Splitwise
+
+### Acceso IMAP de Gmail
+
+1. Crea una Contraseña de Aplicación:
+   - Asegúrate de que la Verificación en dos pasos esté habilitada para tu cuenta de Google
+   - Ve a [Contraseñas de aplicación](https://myaccount.google.com/apppasswords)
+   - Selecciona "Correo" y tu dispositivo
+   - Haz clic en "Generar"
+   - Usa la contraseña de 16 caracteres generada en tu archivo `.env` en lugar de tu contraseña regular
+
+2. Configura las variables de entorno apropiadas en tu archivo `.env`:
+   ```
+   GMAIL_USERNAME=tu.email@gmail.com
+   GMAIL_APP_PASSWORD=tu-contraseña-de-aplicación
+   ```
+
+### Configuración de API de Splitwise
+
+1. Crea una nueva aplicación en [Portal de Desarrolladores de Splitwise](https://secure.splitwise.com/apps)
+2. Obtén tu Consumer Key y Secret
+3. Agrega estas credenciales a tu archivo `.env`
+
+## Uso
+
+### Versión por lotes
+
+Ejecuta la aplicación para procesar nuevos emails y sincronizar transacciones:
+
+```bash
+splitwise-sync
+```
+
+
+### Integración Continua
+
+Este proyecto usa GitHub Actions para integración continua. El flujo de trabajo ejecuta automáticamente pruebas y verificaciones de calidad al hacer push a la rama principal o al crear pull requests. El flujo de trabajo:
+
+1. Configura Python 3.12
+2. Instala dependencias usando uv
+3. Ejecuta pytest para realizar todas las pruebas
+
+~~4. Realiza verificaciones de calidad de código con ruff, black, isort y mypy~~
+
+Puedes ver la configuración del flujo de trabajo en `.github/workflows/tests.yml`.
+
+## Licencia
+
+MIT
+
+---
+
+<a name="english-version"></a>
+# Splitwise Sync (English version)
+
+Send your expenses to Splitwise from bank emails.
 
 ## Overview
 
 This application automates the process of adding transactions to Splitwise by parsing bank emails. It's designed to work in phases:
 
-1. **Phase 1a Batch (Current)**: Parse bank emails from Gmail "Receipts" folder and add expenditures to Splitwise for yourself
-2. **Phase 1b Event-driven (Future)**: Implement an event-driven solution to add transactions to Splitwise
-3. **Phase 2 (Future)**: Intelligently determine if a transaction was shared with a partner and create split transactions accordingly
-4. **Phase 3 (Future)**: Automatically tag transactions with appropriate categories using machine learning
+1. **Phase 1 Batch (Done)**: Parse bank emails from Gmail "Receipts" folder and add expenditures to Splitwise for yourself. At least for my bank.
+3. **Phase 2 (Current)**: Intelligently determine if a transaction was shared with a partner and create split transactions accordingly.
+4. **Phase 3 (Future)**: Automatically tag transactions with appropriate categories using machine learning.
+2. **Phase 4 Event-driven (Future)**: Implement an event-driven solution to add transactions to Splitwise.
+
+## Chilean banks supported
+
+1. (done) Banco de Chile
+2. Banco BCI
+3. Banco Santander
+4. Banco del Estado
 
 ## Setup
 
