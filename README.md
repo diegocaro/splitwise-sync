@@ -1,110 +1,196 @@
 # Splitwise Sync
 
-Automatically sync bank transactions to Splitwise based on email receipts.
+**Gastos del banco directo al Splitwise.**  
+Automatiza tu vida financiera con solo leer tus mails.
 
-## Overview
+[English version below | Versión en inglés más abajo](#english-version)
 
-This application automates the process of adding transactions to Splitwise by parsing bank emails. It's designed to work in phases:
+## ¿Qué hace?
 
-1. **Phase 1a Batch (Current)**: Parse bank emails from Gmail "Receipts" folder and add expenditures to Splitwise for yourself
-2. **Phase 1b Event-driven (Future)**: Implement an event-driven solution to add transactions to Splitwise
-3. **Phase 2 (Future)**: Intelligently determine if a transaction was shared with a partner and create split transactions accordingly
-4. **Phase 3 (Future)**: Automatically tag transactions with appropriate categories using machine learning
+Esta app lee los recibos bancarios que llegan a tu Gmail y los convierte en transacciones en Splitwise. Todo sin mover un dedo (bueno, casi).
 
-## Setup
+## Roadmap
 
-### Prerequisites
+Esto va por fases. La idea es ir de algo útil a algo mágico:
+
+1. **Fase 1 (en progreso)**  
+   🔍 Escanea los mails en la carpeta "Recibos" y crea gastos en tu Splitwise personal.
+
+2. **Fase 2 (en progreso)**  
+   💑 Detecta si el gasto fue compartido (ej: con tu pareja) y lo divide automáticamente.
+
+3. **Fase 3 (próxima)**  
+   🧠 Usa machine learning para categorizar tus gastos sin que tengas que hacer nada.
+
+4. **Fase 4 (a futuro)**  
+   ⚡ Se vuelve event-driven: todo se sincroniza solo, en tiempo real.
+
+
+## ¿Qué bancos chilenos soporta?
+
+- ✅ Banco de Chile  
+- ⚙️ Banco BCI  
+- ⚙️ Banco Santander  
+- ⚙️ Banco Estado  
+
+*(más por venir)*
+
+## ¿Qué necesito?
 
 - Python 3.12+
-- [uv](https://github.com/astral-sh/uv) for package management
-- Gmail account with bank receipt emails
-- Splitwise account and API credentials
+- [uv](https://github.com/astral-sh/uv) para instalar cosas
+- Una cuenta de Gmail con mails de tu banco
+- Tu cuenta de Splitwise con acceso API
 
-### Installation
+## ¿Cómo lo instalo?
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/splitwise-sync.git
-   cd splitwise-sync
-   ```
+```bash
+git clone https://github.com/yourusername/splitwise-sync.git
+cd splitwise-sync
 
-2. Create a virtual environment and install dependencies using uv:
-   ```
-   uv venv --python 3.12.0
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-   uv pip install .           # Install main dependencies
-   uv pip install ".[dev]"    # Install development dependencies
-   ```
+uv venv --python 3.12.0
+source .venv/bin/activate
 
-3. Create a `.env` file based on the provided example:
-   ```
-   cp .env.example .env
-   ```
+uv pip install .
+uv pip install ".[dev]"  # si quieres modo desarrollo
 
-4. Edit the `.env` file with your Gmail and Splitwise API credentials
-
-### Gmail IMAP Access
-
-1. Create an App Password:
-   - Ensure 2-Step Verification is enabled for your Google Account
-   - Go to [App passwords](https://myaccount.google.com/apppasswords)
-   - Select "Mail" and your device
-   - Click "Generate"
-   - Use the generated 16-character password in your `.env` file instead of your regular password
-
-2. Set the appropriate environment variables in your `.env` file:
-   ```
-   GMAIL_USERNAME=your.email@gmail.com
-   GMAIL_APP_PASSWORD=your-app-password
-   ```
-
-### Splitwise API Setup
-
-1. Create a new app at [Splitwise Developer Portal](https://secure.splitwise.com/apps)
-2. Get your Consumer Key and Secret
-3. Add these credentials to your `.env` file
-
-## Usage
-
-### Batch version
-
-Run the application to process new emails and sync transactions:
-
+cp .env.example .env
 ```
+
+Edita el `.env` con tus credenciales de Gmail y Splitwise.
+
+## Conecta Gmail (IMAP)
+
+1. Activa la verificación en 2 pasos en tu cuenta Google  
+2. Crea una contraseña de aplicación [aquí](https://myaccount.google.com/apppasswords)  
+3. Usa esa contraseña en tu `.env`
+
+```env
+GMAIL_USERNAME=tu.email@gmail.com
+GMAIL_APP_PASSWORD=contraseña-generada
+```
+
+## Conecta Splitwise
+
+1. Crea una app en [Splitwise Developer Portal](https://secure.splitwise.com/apps)  
+2. Copia tu Consumer Key y Secret  
+3. Agrega esto a tu `.env`
+
+## ¿Cómo lo uso?
+
+```bash
 splitwise-sync
 ```
 
-Or alternatively:
+Eso es todo. Si todo está bien, tus gastos van directo a Splitwise.
+
+## Dev y CI
+
+Este proyecto usa:
+
+- `pytest` para tests
+- `ruff`, `black`, `isort` y `mypy` para calidad de código
+
+Además, tiene GitHub Actions para correr pruebas automáticamente al hacer push o PRs. Mira `.github/workflows/tests.yml`.
+
+## Licencia
+
+MIT
+
+---
+
+<a name="english-version"></a>
+
+# Splitwise Sync (English version)
+
+**Bank expenses straight to Splitwise.**  
+Automate your finances by just reading your emails.
+
+## What does it do?
+
+This app reads bank receipt emails in your Gmail and turns them into Splitwise transactions. Magic? Nope. Just code.
+
+
+## Roadmap
+
+This is a work in progress — step by step towards full automation:
+
+1. **Phase 1 (in progress)**  
+   🔍 Scans the “Receipts” folder in Gmail and logs personal expenses to Splitwise.
+
+2. **Phase 2 (in progress)**  
+   💑 Detects if the expense was shared (e.g., with your partner) and splits it for you.
+
+3. **Phase 3 (next)**  
+   🧠 Uses machine learning to auto-categorize your expenses.
+
+4. **Phase 4 (future)**  
+   ⚡ Goes event-driven: everything syncs automatically, in real time.
+
+
+## Supported Chilean banks
+
+- ✅ Banco de Chile  
+- ⚙️ Banco BCI  
+- ⚙️ Banco Santander  
+- ⚙️ Banco Estado
+
+## Requirements
+
+- Python 3.12+
+- [uv](https://github.com/astral-sh/uv) for package management
+- Gmail account with receipt emails
+- Splitwise account with API access
+
+## Setup
+
+```bash
+git clone https://github.com/yourusername/splitwise-sync.git
+cd splitwise-sync
+
+uv venv --python 3.12.0
+source .venv/bin/activate
+
+uv pip install .
+uv pip install ".[dev]"
+cp .env.example .env
 ```
-python -m splitwise_sync.cli.batch
+
+Edit `.env` with your Gmail and Splitwise credentials.
+
+## Gmail setup (IMAP)
+
+1. Enable 2FA on your Google account  
+2. Go to [App Passwords](https://myaccount.google.com/apppasswords)  
+3. Generate a password and use it in `.env`:
+
+```env
+GMAIL_USERNAME=your.email@gmail.com
+GMAIL_APP_PASSWORD=your-app-password
 ```
 
-## Testing
+## Splitwise setup
 
-Run tests with pytest:
+1. Create an app at [Splitwise Developer Portal](https://secure.splitwise.com/apps)  
+2. Copy your consumer key and secret  
+3. Add them to `.env`
 
+## How to run it
+
+```bash
+splitwise-sync
 ```
-pytest
-```
 
-## Development
+That’s it. Your bank transactions will appear in Splitwise.
 
-This project uses:
-- `pytest` for testing
-- `black` and `isort` for formatting
-- `mypy` for type checking
-- `ruff` for linting
+## Dev & CI
 
-### Continuous Integration
+Uses:
 
-This project uses GitHub Actions for continuous integration. The workflow automatically runs tests and quality checks on push to the main branch or when creating pull requests. The workflow:
+- `pytest` for testing  
+- `black`, `isort`, `ruff`, `mypy` for code quality  
 
-1. Sets up Python 3.12
-2. Installs dependencies using uv
-3. Runs pytest to execute all tests
-~~4. Performs code quality checks with ruff, black, isort, and mypy~~
-
-You can see the workflow configuration in `.github/workflows/tests.yml`.
+CI runs on GitHub Actions for every push or PR. Config is in `.github/workflows/tests.yml`.
 
 ## License
 

@@ -7,15 +7,16 @@ from pathlib import Path
 
 from splitwise.expense import Expense  # type: ignore
 
-from splitwise_sync import config as Config
+from splitwise_sync import config
 from splitwise_sync.core.email_client import ImapEmailClient
 from splitwise_sync.core.models import EmailMessage
 from splitwise_sync.core.receipt_parser import ReceiptParser
 from splitwise_sync.core.splitwise_client import SplitwiseClient
 
 logging.basicConfig(
-    level=logging.DEBUG if Config.DEBUG else logging.INFO,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    level=logging.DEBUG if config.DEBUG else logging.INFO,
+    format="%(asctime)s [%(name)s] %(levelname)-8s %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
 )
 logger = logging.getLogger(__name__)
 
