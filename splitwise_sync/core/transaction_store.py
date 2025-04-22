@@ -45,9 +45,9 @@ class TransactionStore:
 
         self._transactions = transactions
 
-    def __del__(self):
-        """Ensure the transactions are saved when the object is deleted."""
-        self._save()
+    # def __del__(self):
+    #     """Ensure the transactions are saved when the object is deleted."""
+    #     self._save()
 
     def _save(self) -> None:
         """Save the transactions to the JSON file."""
