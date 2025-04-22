@@ -55,6 +55,7 @@ class SplitwiseSync:
                     continue
 
                 created = self.splitwise_client.create_expense(transaction)
+                logger.debug(f"Created expense: id={created.id}")
                 created_expenses.append(created)
             except:
                 self.email_client.mark_unread(email.uid)

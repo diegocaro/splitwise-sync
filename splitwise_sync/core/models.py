@@ -1,3 +1,4 @@
+import json
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from hashlib import sha256
@@ -49,6 +50,18 @@ class Transaction:
     def hash(self) -> str:
         """Return a hash of the transaction for uniqueness."""
         return sha256(self.hash_str.encode()).hexdigest()
+
+    @property
+    def details_with_metadata(self) -> str:
+        """Return a footer for the transaction."""
+        metadata = json.dumps(
+            {
+                "card_number": self.card_number,
+                "hash": self.hash,
+                "date": self.date_str,
+            }
+        )
+        return f"{self.details}\n\n{metadata}"
 
 
 @dataclass(frozen=True)

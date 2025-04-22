@@ -50,15 +50,11 @@ class SplitwiseClient:
         new.setCost(transaction.cost_str)  # type: ignore
         new.setDescription(transaction.description)  # type: ignore
         new.setDate(transaction.date_str)  # type: ignore
+        new.setDetails(transaction.details_with_metadata)  # type: ignore
+        new.setCurrencyCode(transaction.currency_code)  # type: ignore
 
         if transaction.category_id:
             new.setCategory(transaction.category_id)  # type: ignore
-
-        if transaction.details:
-            new.setDetails(transaction.details)  # type: ignore
-
-        if transaction.currency_code:
-            new.setCurrencyCode(transaction.currency_code)  # type: ignore
 
         # Set current user as the payer and owner of the expense
         user = self.client.getCurrentUser()
