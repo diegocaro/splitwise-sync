@@ -480,7 +480,7 @@ dev = [
 requires-dist = [
     { name = "beautifulsoup4", specifier = "==4.13.4" },
     { name = "black", marker = "extra == 'dev'", specifier = "==23.11.0" },
-    { name = "imap-tools", specifier = ">=1.0.0" },
+    { name = "imap-tools", specifier = "==1.10.0" },
     { name = "isort", marker = "extra == 'dev'", specifier = "==5.12.0" },
     { name = "mypy", marker = "extra == 'dev'", specifier = "==1.7.0" },
     { name = "pre-commit", marker = "extra == 'dev'", specifier = "==3.5.0" },

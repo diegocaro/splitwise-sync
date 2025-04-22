@@ -13,7 +13,7 @@ from ..config import (
     SPLITWISE_CONSUMER_KEY,
     SPLITWISE_CONSUMER_SECRET,
 )
-from .models import CustomExpense
+from .models import Transaction
 
 logger = logging.getLogger(__name__)
 
@@ -38,27 +38,23 @@ class SplitwiseClient:
             api_key=SPLITWISE_API_KEY,
         )
 
-    def create_expense(self, expense: CustomExpense) -> Expense:
-        """Create a new expense in Splitwise."""
+    def create_expense(self, transaction: Transaction) -> Expense:
+        """Create a new expense in Splitwise from a Transaction."""
         logger.debug(
             "Creating expense with cost=%s, description=%s",
-            expense.cost,
-            expense.description,
+            transaction.cost_str,
+            transaction.description,
         )
 
-        new = Expense()
-        new.setCost(expense.cost)  # type: ignore
-        new.setDescription(expense.description)  # type: ignore
-        new.setDate(expense.date)  # type: ignore
+        new = Expense()  # type: ignore
+        new.setCost(transaction.cost_str)  # type: ignore
+        new.setDescription(transaction.description)  # type: ignore
+        new.setDate(transaction.date_str)  # type: ignore
+        new.setDetails(transaction.details_with_metadata)  # type: ignore
+        new.setCurrencyCode(transaction.currency_code)  # type: ignore
 
-        if expense.category_id:
-            new.setCategory(expense.category_id)  # type: ignore
-
-        if expense.details:
-            new.setDetails(expense.details)  # type: ignore
-
-        if expense.currency_code:
-            new.setCurrencyCode(expense.currency_code)  # type: ignore
+        if transaction.category_id:
+            new.setCategory(transaction.category_id)  # type: ignore
 
         # Set current user as the payer and owner of the expense
         user = self.client.getCurrentUser()
@@ -67,12 +63,12 @@ class SplitwiseClient:
 
         users = []
 
-        user1_split = float(expense.cost) * self.split
-        user2_split = float(expense.cost) - user1_split
+        user1_split = transaction.cost * self.split
+        user2_split = transaction.cost - user1_split
 
         user1 = ExpenseUser()
         user1.setId(user.id)  # type: ignore
-        user1.setPaidShare(expense.cost)  # type: ignore
+        user1.setPaidShare(transaction.cost_str)  # type: ignore
         user1.setOwedShare(user1_split)  # type: ignore
 
         user2 = ExpenseUser()

@@ -1,68 +1,83 @@
+import json
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Optional
+from hashlib import sha256
+from pathlib import Path
+from typing import Dict, List, Optional
 
 
-@dataclass
-class CustomExpense:
-    """Model representing a custom expense for Splitwise."""
-
-    cost: str
-    description: str
-    date: str
-    category_id: Optional[int] = None
-    details: Optional[str] = None
-    currency_code: str = "CLP"
-
-
-@dataclass
+@dataclass(frozen=True)
 class Transaction:
     """Model representing a bank transaction extracted from an email."""
 
-    amount: float
-    currency: str
+    cost: float
+    currency_code: str
     date: datetime
-    merchant: str
-    bank_reference: str
-    text: Optional[str] = None
-    category: Optional[str] = None
+    description: str  # the merchant name
+    card_number: str
+    details: str  # the note in the app
+    category_id: Optional[str] = None
 
-    def to_splitwise_expense(self) -> CustomExpense:
-        """Convert transaction to Splitwise expense format."""
-        return CustomExpense(
-            cost=str(self.amount),
-            description=self.merchant,
-            date=self.date.isoformat(),
-            category_id=None,  # Will be implemented in phase 2
-            details=(
-                self.text if self.text else f"Bank reference: {self.bank_reference}"
-            ),
-            currency_code=self.currency,
-        )
+    __HASH_FIELDS = [
+        "cost",
+        "description",
+        "date",
+        "card_number",
+    ]
+
+    @property
+    def cost_str(self) -> str:
+        """Return the cost as a string with two decimal places."""
+        return f"{self.cost:.2f}"
+
+    @property
+    def date_str(self) -> str:
+        """Return the date as a string in YYYY-MM-DD format."""
+        return self.date.isoformat()
 
     def to_dict(self) -> dict[str, str]:
         """Convert transaction to dictionary format."""
         ans = asdict(self)
-        ans["date"] = self.date.isoformat()
+        ans["date"] = self.date_str
+        ans["hash"] = self.hash
         return ans
 
+    @property
+    def hash_str(self) -> str:
+        """Return a hash of the transaction for uniqueness."""
+        return "_".join(str(getattr(self, field)) for field in self.__HASH_FIELDS)
 
-@dataclass
+    @property
+    def hash(self) -> str:
+        """Return a hash of the transaction for uniqueness."""
+        return sha256(self.hash_str.encode()).hexdigest()
+
+    @property
+    def details_with_metadata(self) -> str:
+        """Return a footer for the transaction."""
+        metadata = json.dumps(
+            {
+                "card_number": self.card_number,
+                "hash": self.hash,
+                "date": self.date_str,
+            }
+        )
+        return f"{self.details}\n\n{metadata}"
+
+
+@dataclass(frozen=True)
 class EmailMessage:
     """Model for an email message."""
 
-    id: str
+    uid: str
     subject: str
     sender: str
+    to: tuple[str, ...]
     date: datetime
     body: str
 
     def to_dict(self) -> dict[str, str]:
         """Convert the email message to a dictionary."""
-        return {
-            "id": self.id,
-            "subject": self.subject,
-            "sender": self.sender,
-            "date": self.date.isoformat(),
-            "body": self.body,
-        }
+        ans = asdict(self)
+        ans["date"] = self.date.isoformat()
+        return ans
