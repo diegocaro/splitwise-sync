@@ -76,6 +76,7 @@ class ImapEmailClient:
             uid=str(msg.uid),
             subject=msg.subject,
             sender=msg.from_,
+            to=msg.to,
             date=msg.date,
             body=body,
         )

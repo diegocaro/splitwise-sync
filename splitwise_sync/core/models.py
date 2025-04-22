@@ -37,6 +37,7 @@ class Transaction:
         """Convert transaction to dictionary format."""
         ans = asdict(self)
         ans["date"] = self.date_str
+        ans["hash"] = self.hash
         return ans
 
     @property
@@ -57,7 +58,7 @@ class EmailMessage:
     uid: str
     subject: str
     sender: str
-    to: str
+    to: tuple[str, ...]
     date: datetime
     body: str
 
