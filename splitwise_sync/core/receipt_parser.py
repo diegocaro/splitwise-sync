@@ -26,18 +26,18 @@ class ReceiptParser:
         # Extract all required transaction components
         text = self._extract_transaction_text(body)
         amount, currency = self._extract_amount_and_currency(body)
-        bank_reference = self._extract_bank_reference(body)
+        card_number = self._extract_card_number(body)
         merchant = self._extract_merchant(body)
         parsed_date = self._extract_transaction_date(body)
 
         # Create and return the transaction
         return Transaction(
-            amount=amount,
-            currency=currency,
+            cost=amount,
+            currency_code=currency,
             date=parsed_date,
-            merchant=merchant,
-            bank_reference=bank_reference,
-            text=text,
+            description=merchant,
+            card_number=card_number,
+            details=text,
         )
 
     def _clean_body(self, body: str) -> str:
@@ -75,7 +75,7 @@ class ReceiptParser:
 
         return amount, currency
 
-    def _extract_bank_reference(self, body: str) -> str:
+    def _extract_card_number(self, body: str) -> str:
         """Extract card number to use as bank reference."""
         card_number_match = re.search(r"\*{4}(\d{4})", body)
         if not card_number_match:

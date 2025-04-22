@@ -1,49 +1,34 @@
 from dataclasses import asdict, dataclass
 from datetime import datetime
-from typing import Optional
-
-
-@dataclass
-class CustomExpense:
-    """Model representing a custom expense for Splitwise."""
-
-    cost: str
-    description: str
-    date: str
-    category_id: Optional[int] = None
-    details: Optional[str] = None
-    currency_code: str = "CLP"
+from typing import Any, Dict, Optional
 
 
 @dataclass
 class Transaction:
     """Model representing a bank transaction extracted from an email."""
 
-    amount: float
-    currency: str
+    cost: float
+    currency_code: str
     date: datetime
-    merchant: str
-    bank_reference: str
-    text: Optional[str] = None
-    category: Optional[str] = None
+    description: str  # the merchant name
+    card_number: str
+    details: str  # the note in the app
+    category_id: Optional[str] = None
 
-    def to_splitwise_expense(self) -> CustomExpense:
-        """Convert transaction to Splitwise expense format."""
-        return CustomExpense(
-            cost=str(self.amount),
-            description=self.merchant,
-            date=self.date.isoformat(),
-            category_id=None,  # Will be implemented in phase 2
-            details=(
-                self.text if self.text else f"Bank reference: {self.bank_reference}"
-            ),
-            currency_code=self.currency,
-        )
+    @property
+    def cost_str(self) -> str:
+        """Return the cost as a string with two decimal places."""
+        return f"{self.cost:.2f}"
+
+    @property
+    def date_str(self) -> str:
+        """Return the date as a string in YYYY-MM-DD format."""
+        return self.date.isoformat()
 
     def to_dict(self) -> dict[str, str]:
         """Convert transaction to dictionary format."""
         ans = asdict(self)
-        ans["date"] = self.date.isoformat()
+        ans["date"] = self.date_str
         return ans
 
 
