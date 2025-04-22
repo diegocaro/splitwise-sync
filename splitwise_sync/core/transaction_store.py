@@ -62,7 +62,9 @@ class TransactionStore:
 
         Args:
             transaction: The transaction that was processed
-            expense_id: The ID of the created Splitwise expense
+            expense: The Splitwise expense object created from the transaction
+
+        Note: we can add the whole email that originat the transaction here
         """
         item = {
             "transaction": transaction.to_dict(),

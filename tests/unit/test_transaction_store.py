@@ -9,6 +9,21 @@ from splitwise_sync.core.models import Transaction
 from splitwise_sync.core.transaction_store import TransactionStore
 
 
+# Mock classes to simulate Splitwise objects
+class FakeUser:
+    """Mock for Splitwise User objects."""
+
+    def __init__(self, id="1", email="test@example.com"):
+        self.id = id
+        self.email = email
+
+
+class FakeExpense:
+    def __init__(self, id="12345"):
+        self.id = id
+        self.created_by = FakeUser()
+
+
 @pytest.fixture
 def temp_dir():
     """Create a temporary directory for testing."""
@@ -45,16 +60,12 @@ def test_add_and_contains(
     store: TransactionStore, store_path: Path, transaction: Transaction
 ):
     """Test adding a transaction and checking if it exists."""
-    # Initially the store should be empty
     assert not transaction.hash in store
 
-    # Add the transaction
-    store.add(transaction, "12345")
+    expense = FakeExpense(id="12345")
+    store.add(transaction, expense)
 
-    # Now it should contain the transaction
     assert transaction.hash in store
-
-    # Check that the file was created with the correct content
     assert store_path.exists()
 
     with open(store_path, "r") as f:
@@ -63,14 +74,16 @@ def test_add_and_contains(
     assert transaction.hash in data
     assert data[transaction.hash]["expense_id"] == "12345"
     assert data[transaction.hash]["transaction"]["description"] == "Test Merchant"
+    assert "created_by_id" in data[transaction.hash]
+    assert "created_by_email" in data[transaction.hash]
 
 
 def test_persistence(
     store: TransactionStore, store_path: Path, transaction: Transaction
 ):
     """Test that transactions persist when a new store is created."""
-    # Add a transaction
-    store.add(transaction, "12345")
+    expense = FakeExpense(id="12345")
+    store.add(transaction, expense)
 
     # Create a new store instance with the same path
     new_store = TransactionStore(store_path)
