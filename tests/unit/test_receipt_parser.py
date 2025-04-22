@@ -120,11 +120,8 @@ def test_no_transaction_when_no_amount(
         email_metadata["date"],
         email_body,
     )
-
-    transaction = parser.parse_email(message)
-
-    # Verify no transaction was created
-    assert transaction.amount == 0.0
+    with pytest.raises(ValueError, match="No amount found in the email"):
+        transaction = parser.parse_email(message)
 
 
 def test_parse_html_email(
