@@ -57,8 +57,8 @@ class SplitwiseSync:
                 created = self.splitwise_client.create_expense(transaction)
                 created_expenses.append(created)
             except:
-                self.email_client.mark_unread(email.id)
-                logger.exception(f"Failed to create expense for email: {email.id}")
+                self.email_client.mark_unread(email.uid)
+                logger.exception(f"Failed to create expense for email: {email.uid}")
                 continue
 
         return created_expenses

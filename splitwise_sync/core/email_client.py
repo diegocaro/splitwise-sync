@@ -73,7 +73,7 @@ class ImapEmailClient:
         body = msg.text or msg.html
 
         return EmailMessage(
-            id=str(msg.uid),
+            uid=str(msg.uid),
             subject=msg.subject,
             sender=msg.from_,
             date=msg.date,
@@ -129,5 +129,5 @@ if __name__ == "__main__":
         logger.info(f"Subject: {email.subject}")
         logger.info(f"From: {email.sender}")
         logger.info(f"Date: {email.date}")
-        logger.info(f"ID: {email.id}")
+        logger.info(f"ID: {email.uid}")
         # logger.info(f"Body: {email.body}")

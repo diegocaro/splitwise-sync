@@ -50,22 +50,19 @@ class Transaction:
         return sha256(self.hash_str.encode()).hexdigest()
 
 
-@dataclass
+@dataclass(frozen=True)
 class EmailMessage:
     """Model for an email message."""
 
-    id: str
+    uid: str
     subject: str
     sender: str
+    to: str
     date: datetime
     body: str
 
     def to_dict(self) -> dict[str, str]:
         """Convert the email message to a dictionary."""
-        return {
-            "id": self.id,
-            "subject": self.subject,
-            "sender": self.sender,
-            "date": self.date.isoformat(),
-            "body": self.body,
-        }
+        ans = asdict(self)
+        ans["date"] = self.date.isoformat()
+        return ans
