@@ -1,6 +1,7 @@
 """Configuration utilities for the application."""
 
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 
@@ -18,3 +19,5 @@ DEFAULT_SPLIT = float(os.getenv("DEFAULT_SPLIT", "0.5"))
 
 
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
+
+STORE_PATH = Path(os.getenv("STORE_PATH", "transactions.json"))
