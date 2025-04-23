@@ -4,6 +4,9 @@ credentials.json
 token.json
 processed_emails.json
 
+# Logs
+*.log
+
 # Python artifacts
 __pycache__/
 *.py[cod]

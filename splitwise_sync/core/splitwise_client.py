@@ -84,7 +84,7 @@ class SplitwiseClient:
         if errors or not created_expense:
             logger.error("Error creating expense: %s", errors.errors)  # type: ignore
             raise Exception(f"Error creating expense: {errors.errors}")  # type: ignore
-        logger.debug("Expense created successfully: %s", created_expense)
+        logger.debug("Expense created successfully id=%s", created_expense.id)
         return created_expense
 
     def check_systems(self) -> bool:
