@@ -2,8 +2,7 @@ import json
 from dataclasses import asdict, dataclass
 from datetime import datetime
 from hashlib import sha256
-from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Optional
 
 
 @dataclass(frozen=True)
