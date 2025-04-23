@@ -22,7 +22,7 @@ DEFAULT_SPLIT = float(os.getenv("DEFAULT_SPLIT", "0.5"))
 
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
 
-LOGS_DIR = Path(os.getenv("LOGS_DIR", ""))
+LOGS_DIR = Path(os.getenv("LOGS_DIR", "./logs"))
 if not LOGS_DIR.exists():
     logger.info(f"Creating directory for processed logs: {LOGS_DIR}")
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
