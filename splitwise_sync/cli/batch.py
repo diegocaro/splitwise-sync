@@ -77,7 +77,7 @@ class SplitwiseSync:
             except Exception as exc:
                 self.email_client.mark_unread(email.uid)
                 logger.exception(f"Failed to create expense for email: {email.uid}")
-                errored_logger.info({"email": email.to_dict(), "error": str(exc)})
+                errored_logger.error({"email": email.to_dict(), "error": str(exc)})
                 continue
 
         return created_expenses
