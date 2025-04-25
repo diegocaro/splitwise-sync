@@ -86,7 +86,7 @@ def main() -> None:
 
     if args.expenses:
         splitwise_client = SplitwiseClient()
-        expenses = splitwise_client.get_expenses(limit=args.limit)
+        expenses = splitwise_client.get_expenses(limit=args.limit, return_deleted=True)
         with open(args.expenses, "w") as f:
             json.dump(
                 expenses,
