@@ -54,14 +54,8 @@ class Transaction:
     @property
     def details_with_metadata(self) -> str:
         """Return a footer for the transaction."""
-        metadata = json.dumps(
-            {
-                "card_number": self.card_number,
-                "hash": self.hash,
-                "date": self.date_str,
-            }
-        )
-        return f"{self.details}\n\n{metadata}"
+        json_str = json.dumps(self.to_dict())
+        return f"{self.details}\n\n{json_str}"
 
 
 @dataclass(frozen=True)
