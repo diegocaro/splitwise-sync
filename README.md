@@ -48,11 +48,8 @@ Esto va por fases. La idea es ir de algo útil a algo mágico:
 git clone https://github.com/yourusername/splitwise-sync.git
 cd splitwise-sync
 
-uv venv --python 3.12.0
-source .venv/bin/activate
-
-uv pip install .
-uv pip install ".[dev]"  # si quieres modo desarrollo
+uv venv --python 3.12
+uv sync 
 
 cp .env.example .env
 ```
@@ -148,11 +145,9 @@ This is a work in progress — step by step towards full automation:
 git clone https://github.com/yourusername/splitwise-sync.git
 cd splitwise-sync
 
-uv venv --python 3.12.0
-source .venv/bin/activate
+uv venv --python 3.12
+uv sync
 
-uv pip install .
-uv pip install ".[dev]"
 cp .env.example .env
 ```
 

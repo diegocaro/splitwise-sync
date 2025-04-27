@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Automatically sync bank transactions to Splitwise based on email receipts"
 readme = "README.md"
 requires-python = ">=3.12"
-license = {text = "MIT"}
+license = "MIT"
 dependencies = [
     "splitwise==3.0.0",
     "python-dotenv==1.0.1",
@@ -19,7 +19,10 @@ dependencies = [
 [project.scripts]
 splitwise-sync = "splitwise_sync.cli.batch:main"
 
-[project.optional-dependencies]
+[tool.setuptools]
+packages = ["splitwise_sync"]
+
+[dependency-groups]
 dev = [
     "pytest==7.4.3",
     "pytest-cov==4.1.0",
