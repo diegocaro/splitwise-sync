@@ -113,7 +113,7 @@ class SplitwiseClient:
                       (e.g., friend_id, group_id, etc.)
 
         Returns:
-            Dictionary of expenses with expense IDs as keys
+            List of Expense objects retrieved from the Splitwise API
         """
         api_kwargs = {
             "limit": limit,
