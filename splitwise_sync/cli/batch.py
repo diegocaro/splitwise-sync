@@ -111,8 +111,6 @@ def main() -> None:
     )
 
     args = parser.parse_args()
-    if args.output:
-        args.dry_run = True
 
     app = SplitwiseSync(dry_run=args.dry_run)
     expenses = app.process_emails()
