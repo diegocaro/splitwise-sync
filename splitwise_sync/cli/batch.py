@@ -1,10 +1,8 @@
 """Main application for Splitwise transaction sync."""
 
 import argparse
-import json
 import logging
 from datetime import datetime
-from pathlib import Path
 from typing import Any
 
 from splitwise.expense import Expense  # type: ignore
@@ -98,21 +96,6 @@ class SplitwiseSync:
 
         processed_logger.info(info)
 
-    def email_to_json(self, filename: Path) -> None:
-        """Convert email to JSON format."""
-        emails = self._fetch_unprocessed_emails()
-
-        transactions = [
-            {
-                "email": email.to_dict(),
-                "transaction": self.receipt_parser.parse_email(email).to_dict(),
-            }
-            for email in emails
-        ]
-
-        with open(filename, "w") as f:
-            json.dump(transactions, f, indent=4)
-
 
 def main() -> None:
     """Main entry point for the application."""
@@ -126,24 +109,10 @@ def main() -> None:
         action="store_true",
         help="Run in dry-run mode (parse emails but don't create expenses)",
     )
-    parser.add_argument(
-        "-o",
-        "--output",
-        type=Path,
-        help="Output file for email transactions in JSON format. Implies --dry-run.",
-    )
 
     args = parser.parse_args()
-    if args.output:
-        args.dry_run = True
 
     app = SplitwiseSync(dry_run=args.dry_run)
-
-    if args.output:
-        app.email_to_json(args.output)
-        logger.info(f"Email transactions saved to {args.output}")
-        return
-
     expenses = app.process_emails()
 
     if expenses:

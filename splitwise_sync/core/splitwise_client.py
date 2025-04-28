@@ -1,6 +1,7 @@
 """Splitwise API client for managing expenses."""
 
 import logging
+from typing import Any
 
 from splitwise import Splitwise  # type: ignore
 from splitwise.expense import Expense  # type: ignore
@@ -97,8 +98,38 @@ class SplitwiseClient:
             logger.error("Error checking Splitwise API: %s", e)
             return False
 
+    def get_expenses(
+        self,
+        limit: int = 20,
+        return_deleted: bool = False,
+        **kwargs: Any,
+    ) -> list[Expense]:
+        """Get expenses from Splitwise as a dictionary with expense IDs as keys.
+
+        Args:
+            limit: Maximum number of expenses to retrieve
+            return_deleted: Whether to include deleted expenses
+            **kwargs: Additional arguments to filter expenses from Splitwise API
+                      (e.g., friend_id, group_id, etc.)
+
+        Returns:
+            List of Expense objects retrieved from the Splitwise API
+        """
+        api_kwargs = {
+            "limit": limit,
+        }
+
+        if not return_deleted:
+            api_kwargs["visible"] = False
+
+        api_kwargs.update(kwargs)
+        expenses = self.client.getExpenses(**api_kwargs)
+        return expenses
+
 
 if __name__ == "__main__":
+    import json
+
     logging.basicConfig(level=logging.DEBUG)
     # Example usage
     client = SplitwiseClient()
@@ -106,3 +137,6 @@ if __name__ == "__main__":
         print("Splitwise API is reachable.")
     else:
         print("Splitwise API is not reachable.")
+    expenses = client.get_expenses(friend_id=DEFAULT_FRIEND_ID, limit=20)
+    for expense in expenses:
+        print(json.dumps(expense, default=lambda o: o.__dict__, indent=4))
