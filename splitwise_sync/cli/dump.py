@@ -81,7 +81,7 @@ def main() -> None:
 
     if args.emails:
         email_to_json(args.emails)
-        logger.info(f"Email transactions saved to {args.output}")
+        logger.info(f"Email transactions saved to {args.emails}")
         return
 
     if args.expenses:
