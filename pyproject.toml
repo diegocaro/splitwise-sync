@@ -33,6 +33,12 @@ dev = [
     "ruff==0.1.5",
     "pre-commit==3.5.0",
 ]
+ml = [
+    "geopandas>=1.0.1",
+    "joblib>=1.4.2",
+    "pandas>=2.2.3",
+    "scikit-learn>=1.6.1",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
