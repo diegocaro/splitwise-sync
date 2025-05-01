@@ -1,2 +1,5 @@
 [core]
     autostage = true
+    remote = storage
+['remote "storage"']
+    url = ssh://dvcuser@monibytes.local:2222/data
