@@ -1,0 +1,5 @@
+outs:
+- md5: 84b2f98818a6adbf432da0f1c6578901
+  size: 3027550
+  hash: md5
+  path: expenses.json

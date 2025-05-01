@@ -1,0 +1,5 @@
+outs:
+- md5: 4cf7e738cb082ff80f51e6298c0ada6c
+  size: 14146903
+  hash: md5
+  path: emails.json
