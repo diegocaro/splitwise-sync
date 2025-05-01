@@ -90,6 +90,22 @@ Este proyecto usa:
 
 Además, tiene GitHub Actions para correr pruebas automáticamente al hacer push o PRs. Mira `.github/workflows/tests.yml`.
 
+## ML y datos: cómo está organizado el proyecto
+
+Así se organiza la parte nerd del proyecto: datos, modelos y notebooks bien separados para no perderse entre CSVs y experimentos.
+
+```
+├── data
+│   ├── external       <- Datos de fuentes externas.
+│   ├── interim        <- Datos intermedios que han sido transformados.
+│   ├── processed      <- Conjuntos de datos finales y canónicos para modelado.
+│   └── raw            <- Datos originales e inmutables.
+├── models             <- Modelos entrenados y serializados para predicción de gastos.
+├── notebooks          <- Jupyter notebooks para análisis exploratorio y desarrollo de modelos.
+```
+
+Esta estructura sigue las mejores prácticas de ciencia de datos para mantener la separación entre datos crudos, procesamiento y modelado.
+
 ## Licencia
 
 MIT
