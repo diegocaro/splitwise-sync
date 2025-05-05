@@ -23,15 +23,11 @@ class ExpenseModel:
 
 if __name__ == "__main__":
     # Example usage
-    from pathlib import Path
-
     import pandas as pd
 
-    base_dir = Path(os.path.dirname(__file__)).parents[1]
-    processed_dir = base_dir / "notebooks" / "processed"
-    model_dir = base_dir / "notebooks" / "models"
+    from splitwise_sync.config import MODELS_DIR, PROCESSED_DIR
 
-    data_path = processed_dir / "matched_transactions_locs.pkl"
+    data_path = PROCESSED_DIR / "matched_transactions_locs.pkl"
     df = pd.read_pickle(data_path)
     print("Data loaded successfully from", data_path)
 
@@ -40,8 +36,8 @@ if __name__ == "__main__":
     y = df["is_shared"]
 
     # Create and train predictor
-    model_path = model_dir / "decision_tree_model.pkl"
-    predictor = ExpenseModel(model_path)
+    model_path = MODELS_DIR / "decision_tree_model.pkl"
+    predictor = ExpenseModel(str(model_path))
     print("Model loaded successfully from", model_path)
 
     # Make predictions on first 5 transactions
