@@ -34,11 +34,6 @@ class Transaction:
         object.__setattr__(self, "hash", self._hash)
 
     @property
-    def cost_str(self) -> str:
-        """Return the cost as a string with two decimal places."""
-        return f"{self.cost:.2f}"
-
-    @property
     def date_str(self) -> str:
         """Return the date as a string in YYYY-MM-DD format."""
         return self.date.isoformat()

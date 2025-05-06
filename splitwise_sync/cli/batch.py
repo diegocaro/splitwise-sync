@@ -76,7 +76,7 @@ class SplitwiseSync:
 
                 expense_created = self.splitwise_client.create_expense(transaction)
                 logger.debug(f"Created expense: id={expense_created.id}")
-                self._log_processed(email, transaction, expense_created)
+                self._log_processed(email, transaction, expense_created, is_shared)
                 created_expenses.append(expense_created)
                 if not is_shared:
                     # the deleted transaction will be used as training data
@@ -91,7 +91,11 @@ class SplitwiseSync:
         return created_expenses
 
     def _log_processed(
-        self, email: EmailMessage, transaction: Transaction, expense: Expense
+        self,
+        email: EmailMessage,
+        transaction: Transaction,
+        expense: Expense,
+        is_shared: bool,
     ) -> None:
         """Log the processed email, transaction and expense info"""
 
@@ -102,6 +106,7 @@ class SplitwiseSync:
             "expense_created_by_email": expense.created_by.email,
             "transaction": transaction.to_dict(),
             "email_sender": email.sender,
+            "is_shared": is_shared,
         }
 
         processed_logger.info(info)

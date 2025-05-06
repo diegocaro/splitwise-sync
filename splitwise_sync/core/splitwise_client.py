@@ -43,12 +43,12 @@ class SplitwiseClient:
         """Create a new expense in Splitwise from a Transaction."""
         logger.debug(
             "Creating expense with cost=%s, description=%s",
-            transaction.cost_str,
+            transaction.cost,
             transaction.description,
         )
 
         new = Expense()  # type: ignore
-        new.setCost(transaction.cost_str)  # type: ignore
+        new.setCost(transaction.cost)  # type: ignore
         new.setDescription(transaction.description)  # type: ignore
         new.setDate(transaction.date_str)  # type: ignore
         new.setDetails(transaction.details_with_metadata)  # type: ignore
@@ -64,12 +64,12 @@ class SplitwiseClient:
 
         users = []
 
-        user1_split = transaction.cost * self.split
+        user1_split = round(transaction.cost * self.split, 2)
         user2_split = transaction.cost - user1_split
 
         user1 = ExpenseUser()
         user1.setId(user.id)  # type: ignore
-        user1.setPaidShare(transaction.cost_str)  # type: ignore
+        user1.setPaidShare(transaction.cost)  # type: ignore
         user1.setOwedShare(user1_split)  # type: ignore
 
         user2 = ExpenseUser()
