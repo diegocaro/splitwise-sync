@@ -24,33 +24,6 @@ def sample_transaction(sample_date: datetime):
     )
 
 
-def test_cost_str(sample_transaction: Transaction, sample_date: datetime):
-    """Test that cost_str returns properly formatted cost."""
-    assert sample_transaction.cost_str == "49.99"
-
-    # Test with zero decimal places
-    transaction = Transaction(
-        cost=50.0,
-        currency_code="USD",
-        date=sample_date,
-        description="Coffee Shop",
-        card_number="1234",
-        details="Morning coffee",
-    )
-    assert transaction.cost_str == "50.00"
-
-    # Test with more than two decimal places
-    transaction = Transaction(
-        cost=50.123,
-        currency_code="USD",
-        date=sample_date,
-        description="Coffee Shop",
-        card_number="1234",
-        details="Morning coffee",
-    )
-    assert transaction.cost_str == "50.12"
-
-
 def test_date_str(sample_transaction: Transaction, sample_date: datetime):
     """Test that date_str returns date in ISO format."""
     expected_date_str = sample_date.isoformat()

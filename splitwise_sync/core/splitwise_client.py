@@ -43,7 +43,7 @@ class SplitwiseClient:
         """Create a new expense in Splitwise from a Transaction."""
         logger.debug(
             "Creating expense with cost=%s, description=%s",
-            transaction.cost_str,
+            transaction.cost,
             transaction.description,
         )
 
