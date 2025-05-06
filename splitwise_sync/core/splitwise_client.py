@@ -69,7 +69,7 @@ class SplitwiseClient:
 
         user1 = ExpenseUser()
         user1.setId(user.id)  # type: ignore
-        user1.setPaidShare(transaction.cost_str)  # type: ignore
+        user1.setPaidShare(transaction.cost)  # type: ignore
         user1.setOwedShare(user1_split)  # type: ignore
 
         user2 = ExpenseUser()
