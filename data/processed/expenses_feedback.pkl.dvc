@@ -1,0 +1,5 @@
+outs:
+- md5: 9e7c2d6ed8ee9341dd52e392fa60dbf8
+  size: 13660
+  hash: md5
+  path: expenses_feedback.pkl

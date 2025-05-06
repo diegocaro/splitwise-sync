@@ -1,0 +1,5 @@
+outs:
+- md5: 100f11b2297309684d6f61f54e4993df
+  size: 9067721
+  hash: md5
+  path: dump-splitwise.json
