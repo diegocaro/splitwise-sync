@@ -75,12 +75,12 @@ def test_hash_str(sample_transaction: Transaction):
     """Test that hash_str returns the correct string for hashing."""
     s = sample_transaction
     expected_hash_str = f"{s.cost}_{s.description}_{s.date}_{s.card_number}"
-    assert sample_transaction.hash_str == expected_hash_str
+    assert sample_transaction._hash_str == expected_hash_str
 
 
 def test_hash(sample_transaction: Transaction):
     """Test that hash returns the correct SHA256 hash."""
-    hash_str = sample_transaction.hash_str
+    hash_str = sample_transaction._hash_str
     expected_hash = sha256(hash_str.encode()).hexdigest()
     assert sample_transaction.hash == expected_hash
 

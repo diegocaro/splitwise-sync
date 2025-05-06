@@ -3,6 +3,7 @@
 import argparse
 import logging
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
 from splitwise.expense import Expense  # type: ignore
@@ -13,6 +14,7 @@ from splitwise_sync.core.logging_utils import create_logger
 from splitwise_sync.core.models import EmailMessage, Transaction
 from splitwise_sync.core.receipt_parser import ReceiptParser
 from splitwise_sync.core.splitwise_client import SplitwiseClient
+from splitwise_sync.ml.expense_model import ExpenseModel
 
 logging.basicConfig(
     level=logging.DEBUG if config.DEBUG else logging.INFO,
@@ -38,12 +40,15 @@ errored_logger = create_logger(
 class SplitwiseSync:
     """Main application class for Splitwise transaction sync."""
 
-    def __init__(self, dry_run: bool = False) -> None:
+    def __init__(
+        self, dry_run: bool = False, model_path: Path = config.DEFAULT_MODEL_PATH
+    ) -> None:
         """Initialize the Splitwise sync application."""
         self.email_client = ImapEmailClient()
         self.receipt_parser = ReceiptParser()
         self.splitwise_client = SplitwiseClient()
         self.dry_run = dry_run
+        self.model = ExpenseModel(model_path)
 
     def _fetch_unprocessed_emails(self) -> list[EmailMessage]:
         logger.info("Fetching unprocessed emails...")
@@ -63,7 +68,8 @@ class SplitwiseSync:
             logger.info(f"Processing email: {email.subject}")
             try:
                 transaction = self.receipt_parser.parse_email(email)
-
+                is_shared = bool(self.model.predict(transaction.to_dataframe())[0])
+                logger.debug(f"Prediction for transaction: {is_shared=}")
                 if self.dry_run:
                     logger.info(f"Dry run: {transaction}")
                     continue
@@ -72,6 +78,10 @@ class SplitwiseSync:
                 logger.debug(f"Created expense: id={expense_created.id}")
                 self._log_processed(email, transaction, expense_created)
                 created_expenses.append(expense_created)
+                if not is_shared:
+                    # the deleted transaction will be used as training data
+                    self.splitwise_client.delete_expense(expense_created.id)
+
             except Exception as exc:
                 self.email_client.mark_unread(email.uid)
                 logger.exception(f"Failed to create expense for email: {email.uid}")
@@ -108,6 +118,13 @@ def main() -> None:
         "--dry-run",
         action="store_true",
         help="Run in dry-run mode (parse emails but don't create expenses)",
+    )
+    parser.add_argument(
+        "-m",
+        "--model",
+        type=str,
+        help="Path to the model file",
+        default=config.DEFAULT_MODEL_PATH,
     )
 
     args = parser.parse_args()

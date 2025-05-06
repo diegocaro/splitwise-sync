@@ -1,0 +1,5 @@
+outs:
+- md5: 156ca7c1d61e73e659c4bd299e74f376
+  size: 97510
+  hash: md5
+  path: locations.geojson

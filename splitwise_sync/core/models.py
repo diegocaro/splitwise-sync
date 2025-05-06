@@ -4,6 +4,10 @@ from datetime import datetime
 from hashlib import sha256
 from typing import Optional
 
+import pandas as pd
+
+from splitwise_sync.config import DEFAULT_TIMEZONE
+
 
 @dataclass(frozen=True)
 class Transaction:
@@ -16,6 +20,7 @@ class Transaction:
     card_number: str
     details: str  # the note in the app
     category_id: Optional[str] = None
+    hash: str = ""  # populated in __post_init__
 
     __HASH_FIELDS = [
         "cost",
@@ -23,6 +28,10 @@ class Transaction:
         "date",
         "card_number",
     ]
+
+    def __post_init__(self):
+        """Post-initialization to set the hash and date."""
+        object.__setattr__(self, "hash", self._hash)
 
     @property
     def cost_str(self) -> str:
@@ -42,20 +51,34 @@ class Transaction:
         return ans
 
     @property
-    def hash_str(self) -> str:
+    def _hash_str(self) -> str:
         """Return a hash of the transaction for uniqueness."""
         return "_".join(str(getattr(self, field)) for field in self.__HASH_FIELDS)
 
     @property
-    def hash(self) -> str:
+    def _hash(self) -> str:
         """Return a hash of the transaction for uniqueness."""
-        return sha256(self.hash_str.encode()).hexdigest()
+        return sha256(self._hash_str.encode()).hexdigest()
 
     @property
     def details_with_metadata(self) -> str:
         """Return a footer for the transaction."""
         json_str = json.dumps(self.to_dict())
         return f"{self.details}\n\n{json_str}"
+
+    def to_dataframe(
+        self, timezone: str = DEFAULT_TIMEZONE, prefix: str = "transaction_"
+    ) -> pd.DataFrame:
+        """Convert a list of transactions to a dictionary for DataFrame."""
+
+        df = pd.DataFrame([asdict(self)])
+        df["date"] = pd.to_datetime(df["date"])
+        if timezone:
+            df["date"] = df["date"].dt.tz_convert(timezone)
+
+        df = df.rename(columns={col: f"{prefix}{col}" for col in df.columns})
+
+        return df
 
 
 @dataclass(frozen=True)

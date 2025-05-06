@@ -88,6 +88,16 @@ class SplitwiseClient:
         logger.debug("Expense created successfully id=%s", created_expense.id)
         return created_expense
 
+    def delete_expense(self, expense_id: int) -> None:
+        """Delete an expense in Splitwise by its ID."""
+        logger.debug("Deleting expense with ID: %s", expense_id)
+
+        success, errors = self.client.deleteExpense(expense_id)
+        if errors or not success:
+            logger.error("Error deleting expense: %s", errors.errors)
+            raise Exception(f"Error deleting expense: {errors.errors}")
+        logger.debug("Expense deleted successfully")
+
     def check_systems(self) -> bool:
         """Check if the Splitwise API is reachable."""
         try:

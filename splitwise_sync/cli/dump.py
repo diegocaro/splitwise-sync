@@ -63,9 +63,9 @@ def main() -> None:
     )
 
     parser.add_argument(
-        "--emails",
+        "--transactions",
         type=Path,
-        help="Output file for email parsed transactions in JSON format",
+        help="Output file for transactions parsed from emails in JSON format",
     )
     parser.add_argument(
         "--limit", type=int, default=1000, help="Limit the expenses to fetch"
@@ -79,9 +79,9 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    if args.emails:
-        email_to_json(args.emails)
-        logger.info(f"Email transactions saved to {args.emails}")
+    if args.transactions:
+        email_to_json(args.transactions)
+        logger.info(f"Transactions saved to {args.transactions}")
         return
 
     if args.expenses:

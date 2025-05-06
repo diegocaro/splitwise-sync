@@ -1,0 +1,5 @@
+outs:
+- md5: 790ce685b8c8f03f0142282addbee210
+  size: 100557
+  hash: md5
+  path: expenses.pkl

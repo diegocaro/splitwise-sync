@@ -20,6 +20,8 @@ SPLITWISE_API_KEY = os.getenv("SPLITWISE_API_KEY", "")
 DEFAULT_FRIEND_ID = int(os.getenv("DEFAULT_FRIEND_ID", "0"))
 DEFAULT_SPLIT = float(os.getenv("DEFAULT_SPLIT", "0.5"))
 
+DEFAULT_TIMEZONE = "America/Santiago"
+
 DEBUG = os.getenv("DEBUG", "False").lower() in ("true", "1", "t")
 
 LOGS_DIR = Path(os.getenv("LOGS_DIR", "./logs"))
@@ -37,4 +39,7 @@ INTERIM_DIR = DATA_DIR / "interim"
 PROCESSED_DIR = DATA_DIR / "processed"
 EXTERNAL_DIR = DATA_DIR / "external"
 
-MODELS_DIR = PROJECT_ROOT / "data/models"
+MODELS_DIR = PROJECT_ROOT / "models"
+
+
+DEFAULT_MODEL_PATH = MODELS_DIR / "decision_tree_model.pkl"
