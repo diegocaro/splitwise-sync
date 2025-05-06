@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import joblib
 import pandas as pd
@@ -6,8 +7,8 @@ import pandas as pd
 
 class ExpenseModel:
 
-    def __init__(self, model_path: str):
-        assert os.path.exists(model_path), f"Model path {model_path} does not exist."
+    def __init__(self, model_path: Path):
+        assert model_path.exists(), f"Model path {model_path} does not exist."
         self.model = joblib.load(model_path)
 
     def predict(self, X):
@@ -37,7 +38,7 @@ if __name__ == "__main__":
 
     # Create and train predictor
     model_path = MODELS_DIR / "decision_tree_model.pkl"
-    predictor = ExpenseModel(str(model_path))
+    predictor = ExpenseModel(model_path)
     print("Model loaded successfully from", model_path)
 
     # Make predictions on first 5 transactions

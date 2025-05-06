@@ -40,3 +40,6 @@ PROCESSED_DIR = DATA_DIR / "processed"
 EXTERNAL_DIR = DATA_DIR / "external"
 
 MODELS_DIR = PROJECT_ROOT / "models"
+
+
+DEFAULT_MODEL_PATH = MODELS_DIR / "decision_tree_model.pkl"
