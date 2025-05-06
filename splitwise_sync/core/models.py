@@ -80,6 +80,12 @@ class Transaction:
 
         return df
 
+    def to_series(
+        self, timezone: str = DEFAULT_TIMEZONE, prefix: str = "transaction_"
+    ) -> pd.Series:
+        """Convert a transaction to a Series for DataFrame."""
+        return self.to_dataframe(timezone=timezone, prefix=prefix).iloc[0]
+
 
 @dataclass(frozen=True)
 class EmailMessage:

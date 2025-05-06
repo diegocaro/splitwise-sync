@@ -2,3 +2,5 @@
 /locations.geojson
 /matched_transactions_locs.pkl
 /transactions.pkl
+/expenses_feedback.pkl
+/matched_transactions_locs_with_feedback.pkl
