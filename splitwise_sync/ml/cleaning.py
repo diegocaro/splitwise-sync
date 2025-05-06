@@ -2,13 +2,13 @@ import pandas as pd
 
 
 def clean_datetime_series(
-    serie: pd.Series, timezone: str = "America/Santiago"
+    series: pd.Series, timezone: str = "America/Santiago"
 ) -> pd.Series:
     """
     Cleans a datetime column by converting it to a standard format.
     """
     new = pd.to_datetime(
-        serie, format="ISO8601", utc=True, errors="coerce"
+        series, format="ISO8601", utc=True, errors="coerce"
     ).dt.tz_convert(timezone)
     return new
 
