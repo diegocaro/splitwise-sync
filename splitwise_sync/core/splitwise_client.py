@@ -80,13 +80,7 @@ class SplitwiseClient:
         users.append(user1)  # type: ignore
         users.append(user2)  # type: ignore
         new.setUsers(users)  # type: ignore
-        print(
-            new.cost,
-            user1.paid_share,
-            user1.owed_share,
-            user2.paid_share,
-            user2.owed_share,
-        )
+
         created_expense, errors = self.client.createExpense(new)  # type: ignore
         if errors or not created_expense:
             logger.error("Error creating expense: %s", errors.errors)  # type: ignore
