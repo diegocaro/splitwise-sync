@@ -48,7 +48,7 @@ class SplitwiseClient:
         )
 
         new = Expense()  # type: ignore
-        new.setCost(transaction.cost_str)  # type: ignore
+        new.setCost(transaction.cost)  # type: ignore
         new.setDescription(transaction.description)  # type: ignore
         new.setDate(transaction.date_str)  # type: ignore
         new.setDetails(transaction.details_with_metadata)  # type: ignore
@@ -64,7 +64,7 @@ class SplitwiseClient:
 
         users = []
 
-        user1_split = transaction.cost * self.split
+        user1_split = round(transaction.cost * self.split, 2)
         user2_split = transaction.cost - user1_split
 
         user1 = ExpenseUser()
@@ -80,7 +80,13 @@ class SplitwiseClient:
         users.append(user1)  # type: ignore
         users.append(user2)  # type: ignore
         new.setUsers(users)  # type: ignore
-
+        print(
+            new.cost,
+            user1.paid_share,
+            user1.owed_share,
+            user2.paid_share,
+            user2.owed_share,
+        )
         created_expense, errors = self.client.createExpense(new)  # type: ignore
         if errors or not created_expense:
             logger.error("Error creating expense: %s", errors.errors)  # type: ignore
