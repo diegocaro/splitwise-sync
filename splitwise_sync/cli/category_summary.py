@@ -42,11 +42,15 @@ def format_currency_amount(amount: float, currency_code: str) -> str:
     formatted_num = f"{amount:,.{precision}f}"
 
     # Replace separators according to locale
+    # Use a temporary unique marker for the decimal separator to avoid conflicts
+    if format_info["decimal_sep"] != "." and precision > 0:
+        formatted_num = formatted_num.replace(".", "<DECIMAL>")
+
     if format_info["thousands_sep"] != ",":
         formatted_num = formatted_num.replace(",", format_info["thousands_sep"])
 
     if format_info["decimal_sep"] != "." and precision > 0:
-        formatted_num = formatted_num.replace(".", format_info["decimal_sep"])
+        formatted_num = formatted_num.replace("<DECIMAL>", format_info["decimal_sep"])
 
     # Add currency symbol
     return f"{formatted_num}"
