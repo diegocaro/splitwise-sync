@@ -7,8 +7,9 @@ import datetime
 import logging
 import sys
 from collections import defaultdict
-from typing import Dict, List, Optional, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple, TypedDict
 
+from splitwise.category import Category  # type: ignore
 from splitwise.expense import Expense  # type: ignore
 
 from splitwise_sync.config import DEFAULT_FRIEND_ID
@@ -16,8 +17,16 @@ from splitwise_sync.core.splitwise_client import SplitwiseClient
 
 logger = logging.getLogger(__name__)
 
+
+class CurrencyFormatDict(TypedDict):
+    symbol: str
+    thousands_sep: str
+    decimal_sep: str
+    precision: int
+
+
 # Define currency symbols and formatting
-CURRENCY_FORMATS = {
+CURRENCY_FORMATS: Dict[str, CurrencyFormatDict] = {
     "CLP": {"symbol": "$", "thousands_sep": ".", "decimal_sep": ",", "precision": 0},
     "USD": {"symbol": "$", "thousands_sep": ",", "decimal_sep": ".", "precision": 2},
     "EUR": {"symbol": "€", "thousands_sep": ".", "decimal_sep": ",", "precision": 2},
@@ -25,12 +34,14 @@ CURRENCY_FORMATS = {
 }
 
 # Default currency format to use if currency not found
-DEFAULT_CURRENCY_FORMAT = {
+DEFAULT_CURRENCY_FORMAT: CurrencyFormatDict = {
     "symbol": "$",
     "thousands_sep": ",",
     "decimal_sep": ".",
     "precision": 2,
 }
+
+LINE_SEPARATOR = "-" * 70
 
 
 def format_currency_amount(amount: float, currency_code: str) -> str:
@@ -41,7 +52,7 @@ def format_currency_amount(amount: float, currency_code: str) -> str:
     precision = format_info["precision"]
     formatted_num = f"{amount:,.{precision}f}"
 
-    # Replace separators according to locale
+    # Replace separators according to currency code
     # Use a temporary unique marker for the decimal separator to avoid conflicts
     if format_info["decimal_sep"] != "." and precision > 0:
         formatted_num = formatted_num.replace(".", "<DECIMAL>")
@@ -69,13 +80,12 @@ def parse_year_month(year_month: Optional[str] = None) -> Tuple[int, int]:
         try:
             year, month = map(int, year_month.split("-")[:2])
             if not (1 <= month <= 12 and 1000 <= year <= 9999):
-                raise ValueError("Invalid year or month")
+                raise ValueError("Invalid year or month range.")
             return month, year
-        except (ValueError, IndexError):
-            logger.error(
+        except (ValueError, IndexError) as e:
+            raise ValueError(
                 f"Invalid year-month format: {year_month}. Use YYYY-MM format."
-            )
-            sys.exit(1)
+            ) from e
     else:
         # Use current month and year
         today = datetime.date.today()
@@ -94,7 +104,7 @@ def get_date_range(month: int, year: int) -> Tuple[str, str]:
 
 
 def categorize_expenses(
-    expenses: List[Expense], exclude_categories: Set[str] = None
+    expenses: List[Expense], exclude_categories: Optional[Set[str]] = None
 ) -> Tuple[Dict[str, Dict[str, float]], Dict[str, Dict[str, float]]]:
     """
     Categorize expenses by currency and sum up the amounts for each category.
@@ -123,26 +133,35 @@ def categorize_expenses(
     """
     # First level: Currency code
     # Second level: Category name -> total amount
-    included = defaultdict(lambda: defaultdict(float))
-    excluded = defaultdict(lambda: defaultdict(float))
-    exclude_categories = exclude_categories or set()
+    included: Dict[str, Dict[str, float]] = defaultdict(lambda: defaultdict(float))
+    excluded: Dict[str, Dict[str, float]] = defaultdict(lambda: defaultdict(float))
+
+    current_exclude_categories: Set[str] = (
+        exclude_categories if exclude_categories is not None else set()
+    )
 
     for expense in expenses:
-        # Get category name - if no category, use "Uncategorized"
-        category_name = getattr(expense.category, "name", "Uncategorized")
-        if expense.payment:
+        category_obj: Optional[Category] = getattr(expense, "category", None)
+        category_name: str = (
+            getattr(category_obj, "name", "Uncategorized")
+            if category_obj
+            else "Uncategorized"
+        )
+
+        is_payment: bool = getattr(expense, "payment", False)
+        if is_payment:
             category_name = "Payment"
 
-        # Get currency code - default to USD if not present
-        currency_code = getattr(expense, "currency_code", "USD")
+        currency_code: str = getattr(expense, "currency_code", "USD")
+        cost_str: str = getattr(expense, "cost", "0")
+        cost: float = float(cost_str)
+        expense_date: str = getattr(expense, "date", "")  # Assuming date is a string
 
-        # Add the expense amount (convert from string if necessary)
-        cost = float(expense.cost)
         logger.debug(
-            f"Processing expense: {category_name} - {currency_code} - {cost} - {expense.date} - is_payment={expense.payment}"
+            f"Processing expense: {category_name} - {currency_code} - {cost} - {expense_date} - is_payment={is_payment}"
         )
-        # Add to appropriate dictionary based on whether it's excluded
-        if category_name in exclude_categories:
+
+        if category_name in current_exclude_categories:
             excluded[currency_code][category_name] += cost
         else:
             included[currency_code][category_name] += cost
@@ -154,58 +173,88 @@ def categorize_expenses(
     )
 
 
+def _print_category_section(
+    categories_data: Dict[str, float],
+    currency_symbol: str,
+    currency_code: str,
+    section_title: Optional[str] = None,
+    is_excluded_section: bool = False,
+    overall_total_for_percentage: Optional[float] = None,
+) -> None:
+    """Helper function to print a section of categories."""
+    if not categories_data:
+        return
+
+    if section_title:
+        print(LINE_SEPARATOR)
+        print(f"{section_title:<30}")
+
+    sorted_data = sorted(categories_data.items(), key=lambda x: x[1], reverse=True)
+
+    for category, amount in sorted_data:
+        formatted_amount = format_currency_amount(amount, currency_code)
+        if (
+            not is_excluded_section
+            and overall_total_for_percentage is not None
+            and overall_total_for_percentage > 0
+        ):
+            percentage = (amount / overall_total_for_percentage) * 100
+            print(
+                f"{category:<30} {currency_symbol} {formatted_amount:>10} {percentage:>9.1f}%"
+            )
+        else:
+            note = "(excluded)" if is_excluded_section else ""
+            print(
+                f"{category:<30} {currency_symbol} {formatted_amount:>10} {'-':>9} {note:>10}"
+            )
+
+
 def display_summary(
     categorized_expenses: Dict[str, Dict[str, float]],
     excluded_expenses: Dict[str, Dict[str, float]],
 ) -> None:
     """Display the summary of expenses by currency and category in a formatted table."""
-    excluded_expenses = excluded_expenses or {}
+    # The line `excluded_expenses = excluded_expenses or {}` is removed as categorize_expenses ensures it's a dict.
 
     for currency_code, categories in categorized_expenses.items():
         total = sum(categories.values())
-        excluded_total = sum(excluded_expenses.get(currency_code, {}).values())
+        current_currency_excluded_expenses = excluded_expenses.get(currency_code, {})
+        excluded_total = sum(current_currency_excluded_expenses.values())
 
         print(f"\nExpense Summary by Category [{currency_code}]:")
-        print("-" * 70)
+        print(LINE_SEPARATOR)
         print(f"{'Category':<30} {'Amount':>15} {'Percentage':>10} {'Note':>10}")
-        print("-" * 70)
+        print(LINE_SEPARATOR)
 
-        # Sort categories by amount (descending)
-        sorted_categories = sorted(categories.items(), key=lambda x: x[1], reverse=True)
         currency_symbol = format_currency_symbol(currency_code)
 
-        for category, amount in sorted_categories:
-            percentage = (amount / total) * 100 if total > 0 else 0
-            formatted_amount = format_currency_amount(amount, currency_code)
-            print(
-                f"{category:<30} {currency_symbol} {formatted_amount:>10} {percentage:>9.1f}%"
-            )
+        # Print included categories
+        _print_category_section(
+            categories_data=categories,
+            currency_symbol=currency_symbol,
+            currency_code=currency_code,
+            is_excluded_section=False,
+            overall_total_for_percentage=total,
+        )
 
         # Print excluded categories if any exist for this currency
-        if currency_code in excluded_expenses and excluded_expenses[currency_code]:
-            print("-" * 70)
-            print(f"{'EXCLUDED CATEGORIES:':<30}")
-
-            # Sort excluded categories by amount (descending)
-            sorted_excluded = sorted(
-                excluded_expenses[currency_code].items(),
-                key=lambda x: x[1],
-                reverse=True,
+        if current_currency_excluded_expenses:
+            _print_category_section(
+                categories_data=current_currency_excluded_expenses,
+                currency_symbol=currency_symbol,
+                currency_code=currency_code,
+                section_title="EXCLUDED CATEGORIES:",
+                is_excluded_section=True,
             )
-
-            for category, amount in sorted_excluded:
-                formatted_amount = format_currency_amount(amount, currency_code)
-                print(
-                    f"{category:<30} {currency_symbol} {formatted_amount:>10} {'-':>9} {'(excluded)':>10}"
-                )
-
             print(
                 f"{'EXCLUDED TOTAL:':<30} {currency_symbol} {format_currency_amount(excluded_total, currency_code):>10}"
             )
 
-        print("-" * 70)
+        print(LINE_SEPARATOR)
         formatted_total = format_currency_amount(total, currency_code)
-        print(f"{'TOTAL':<30} {currency_symbol} {formatted_total:>10} {100:>9.1f}%")
+        print(
+            f"{'TOTAL':<30} {currency_symbol} {formatted_total:>10} {100 if total > 0 else 0:>9.1f}%"
+        )
 
         # Show grand total if there are excluded categories
         if excluded_total > 0:
@@ -214,7 +263,7 @@ def display_summary(
                 f"{'GRAND TOTAL (with excluded):':<30} {currency_symbol} {format_currency_amount(grand_total, currency_code):>10}"
             )
 
-        print("-" * 70)
+        print(LINE_SEPARATOR)
 
 
 def main() -> None:
@@ -256,7 +305,12 @@ def main() -> None:
     )
 
     # Parse month and year
-    month, year = parse_year_month(args.month)
+    try:
+        month, year = parse_year_month(args.month)
+    except ValueError as e:
+        logger.error(str(e))
+        sys.exit(1)
+
     month_name = calendar.month_name[month]
     logger.info(f"Analyzing expenses for {month_name} {year}")
 
