@@ -18,6 +18,7 @@ dependencies = [
 
 [project.scripts]
 splitwise-sync = "splitwise_sync.cli.batch:main"
+splitwise-summary = "splitwise_sync.cli.category_summary:main"
 
 [tool.setuptools]
 packages = ["splitwise_sync"]
