@@ -57,7 +57,7 @@ def format_currency_amount(amount: float, currency_code: str) -> str:
 
 
 def format_currency_symbol(currency_code: str) -> str:
-    """Format an amount according to the specified currency."""
+    """Return a formatted string containing the currency code and its associated symbol."""
     format_info = CURRENCY_FORMATS.get(currency_code, DEFAULT_CURRENCY_FORMAT)
 
     return f"{currency_code} {format_info['symbol']}"
