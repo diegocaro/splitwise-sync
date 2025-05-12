@@ -279,7 +279,7 @@ def main() -> None:
         sys.exit(1)
 
     month_name = calendar.month_name[month]
-    logger.info(f"Analyzing expenses for {month_name} {year}")
+    logger.debug(f"Analyzing expenses for {month_name} {year}")
 
     # Get date range for the month
     start_date, end_date = get_date_range(month, year)
@@ -292,35 +292,24 @@ def main() -> None:
         logger.error("Failed to connect to Splitwise. Check your API credentials.")
         sys.exit(1)
 
-    # Get expenses for the specified date range
-    logger.info(f"Retrieving up to {args.limit} expenses from Splitwise...")
+    logger.debug(f"Retrieving up to {args.limit} expenses from Splitwise...")
     expenses = client.get_expenses(
         limit=args.limit,
         dated_after=start_date,
         dated_before=end_date,
         friend_id=args.friend_id,
     )
-    logger.info(f"Retrieved {len(expenses)} expenses")
+    logger.debug(f"Retrieved {len(expenses)} expenses")
 
-    # Convert exclude categories to a set for faster lookups
-    default_exclude_categories = {"Payment"}
-    exclude_categories = (
-        set(args.exclude).union(default_exclude_categories)
-        if args.exclude
-        else default_exclude_categories
-    )
-    if exclude_categories:
-        logger.info(
-            f"Excluding categories from totals: {', '.join(exclude_categories)}"
-        )
+    if args.exclude:
+        logger.info(f"Excluding categories from totals: {', '.join(args.exclude)}")
 
-    frame = categorize_expenses(expenses, exclude_categories)
+    frame = categorize_expenses(expenses, args.exclude)
 
     if frame.empty:
         logger.info("No expenses found for the specified period.")
         return
 
-    # Display summary including excluded categories but not in totals
     display_summary(frame)
 
 
