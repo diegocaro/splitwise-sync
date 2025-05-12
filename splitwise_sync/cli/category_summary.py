@@ -9,6 +9,7 @@ import sys
 from collections import defaultdict
 from typing import Dict, List, Optional, Set, Tuple, TypedDict
 
+import pandas as pd
 from splitwise.category import Category  # type: ignore
 from splitwise.expense import Expense  # type: ignore
 
@@ -105,76 +106,40 @@ def get_date_range(month: int, year: int) -> Tuple[str, str]:
 
 def categorize_expenses(
     expenses: List[Expense], exclude_categories: Optional[Set[str]] = None
-) -> Tuple[Dict[str, Dict[str, float]], Dict[str, Dict[str, float]]]:
+) -> pd.DataFrame:
     """
     Categorize expenses by currency and sum up the amounts for each category.
-    Separates excluded categories but still collects their data.
-
-    Returns a tuple of two nested dictionaries:
-    (
-        # Regular categories to include in totals
-        {
-            'currency_code': {
-                'category_name': total_amount,
-                ...
-            },
-            ...
-        },
-        # Excluded categories (shown but not included in totals)
-        {
-            'currency_code': {
-                'excluded_category_name': total_amount,
-                ...
-            },
-            ...
-        }
-    )
-    )
     """
-    # First level: Currency code
-    # Second level: Category name -> total amount
-    included: Dict[str, Dict[str, float]] = defaultdict(lambda: defaultdict(float))
-    excluded: Dict[str, Dict[str, float]] = defaultdict(lambda: defaultdict(float))
+    if exclude_categories is None:
+        exclude_categories = set()
 
-    current_exclude_categories: Set[str] = (
-        exclude_categories if exclude_categories is not None else set()
-    )
-
+    data = []
     for expense in expenses:
-        category_obj: Optional[Category] = getattr(expense, "category", None)
-        category_name: str = (
-            getattr(category_obj, "name", "Uncategorized")
-            if category_obj
-            else "Uncategorized"
-        )
+        category = expense.getCategory().getName().strip()
+        if expense.getPayment():
+            category = "Payment"
+        row = {
+            "id": expense.getId(),
+            "cost": float(expense.getCost()),
+            "currency_code": expense.getCurrencyCode(),
+            "date": expense.getDate(),
+            "category": category,
+            "is_excluded": category in exclude_categories,
+        }
+        data.append(row)
+    df = pd.DataFrame(data)
+    df["date"] = pd.to_datetime(df["date"], errors="raise")
+    df["month"] = df["date"].dt.strftime("%Y-%m")
 
-        is_payment: bool = getattr(expense, "payment", False)
-        if is_payment:
-            category_name = "Payment"
+    out = df.groupby(
+        ["currency_code", "category", "is_excluded", "month"], as_index=False
+    )["cost"].sum()
 
-        currency_code: str = getattr(expense, "currency_code", "USD")
-        cost_str: str = getattr(expense, "cost", "0")
-        cost: float = float(cost_str)
-        expense_date: str = getattr(expense, "date", "")  # Assuming date is a string
-
-        logger.debug(
-            f"Processing expense: {category_name} - {currency_code} - {cost} - {expense_date} - is_payment={is_payment}"
-        )
-
-        if category_name in current_exclude_categories:
-            excluded[currency_code][category_name] += cost
-        else:
-            included[currency_code][category_name] += cost
-
-    # Convert inner defaultdicts to regular dicts
-    return (
-        {currency: dict(categories) for currency, categories in included.items()},
-        {currency: dict(categories) for currency, categories in excluded.items()},
-    )
+    return out
 
 
 def _print_category_section(
-    categories_data: Dict[str, float],
+    categories_data: pd.DataFrame,
     currency_symbol: str,
     currency_code: str,
     section_title: Optional[str] = None,
@@ -182,8 +147,10 @@ def _print_category_section(
     overall_total_for_percentage: Optional[float] = None,
 ) -> None:
     """Helper function to print a section of categories."""
-    if not categories_data:
+    if categories_data.empty:
         return
+
+    categories_data = categories_data.set_index("category")["cost"].to_dict()
 
     if section_title:
         print(LINE_SEPARATOR)
@@ -203,34 +170,34 @@ def _print_category_section(
                 f"{category:<30} {currency_symbol} {formatted_amount:>10} {percentage:>9.1f}%"
             )
         else:
-            note = "(excluded)" if is_excluded_section else ""
+            note = " (excluded)" if is_excluded_section else " "
             print(
                 f"{category:<30} {currency_symbol} {formatted_amount:>10} {'-':>9} {note:>10}"
             )
 
 
-def display_summary(
-    categorized_expenses: Dict[str, Dict[str, float]],
-    excluded_expenses: Dict[str, Dict[str, float]],
-) -> None:
+def display_summary(df: pd.DataFrame) -> None:
     """Display the summary of expenses by currency and category in a formatted table."""
-    # The line `excluded_expenses = excluded_expenses or {}` is removed as categorize_expenses ensures it's a dict.
 
-    for currency_code, categories in categorized_expenses.items():
-        total = sum(categories.values())
-        current_currency_excluded_expenses = excluded_expenses.get(currency_code, {})
-        excluded_total = sum(current_currency_excluded_expenses.values())
+    for currency_code, categories in df.groupby("currency_code"):
+        total = categories["cost"].sum()
+        currency_symbol = format_currency_symbol(currency_code)
 
         print(f"\nExpense Summary by Category [{currency_code}]:")
         print(LINE_SEPARATOR)
-        print(f"{'Category':<30} {'Amount':>15} {'Percentage':>10} {'Note':>10}")
+        print(
+            f"{'Category':<30} {' '*len(currency_symbol)} {'Amount':>10} {'Percentage':>10} {'Note':<10}"
+        )
         print(LINE_SEPARATOR)
 
-        currency_symbol = format_currency_symbol(currency_code)
-
         # Print included categories
+        included_categories = categories[~categories["is_excluded"]]
+        excluded_categories = categories[categories["is_excluded"]]
+        total = included_categories["cost"].sum()
+        excluded_total = excluded_categories["cost"].sum()
+
         _print_category_section(
-            categories_data=categories,
+            categories_data=included_categories,
             currency_symbol=currency_symbol,
             currency_code=currency_code,
             is_excluded_section=False,
@@ -238,9 +205,9 @@ def display_summary(
         )
 
         # Print excluded categories if any exist for this currency
-        if current_currency_excluded_expenses:
+        if not excluded_categories.empty:
             _print_category_section(
-                categories_data=current_currency_excluded_expenses,
+                categories_data=excluded_categories,
                 currency_symbol=currency_symbol,
                 currency_code=currency_code,
                 section_title="EXCLUDED CATEGORIES:",
@@ -254,7 +221,7 @@ def display_summary(
         formatted_total = format_currency_amount(total, currency_code)
         half_total = format_currency_amount(total / 2, currency_code)
         print(
-            f"{'TOTAL':<30} {currency_symbol} {formatted_total:>10} {100 if total > 0 else 0:>9.1f}%    half = {half_total}"
+            f"{'TOTAL':<30} {currency_symbol} {formatted_total:>10} {100 if total > 0 else 0:>9.1f}% (half = {half_total})"
         )
 
         # Show grand total if there are excluded categories
@@ -263,8 +230,6 @@ def display_summary(
             print(
                 f"{'GRAND TOTAL (with excluded):':<30} {currency_symbol} {format_currency_amount(grand_total, currency_code):>10}"
             )
-
-        print(LINE_SEPARATOR)
 
 
 def main() -> None:
@@ -294,7 +259,8 @@ def main() -> None:
         "--exclude",
         nargs="+",
         metavar="CATEGORY",
-        help="Categories to exclude from the summary (e.g., --exclude Insurance 'Home Services')",
+        default=["Payment", "Insurance"],
+        help="Categories to exclude from the summary (e.g., --exclude Insurance 'Home Services'). Default: Payment and Insurance",
     )
 
     args = parser.parse_args()
@@ -348,17 +314,14 @@ def main() -> None:
             f"Excluding categories from totals: {', '.join(exclude_categories)}"
         )
 
-    # Categorize and sum expenses by currency - now returns both included and excluded expenses
-    categorized_expenses, excluded_expenses = categorize_expenses(
-        expenses, exclude_categories
-    )
+    frame = categorize_expenses(expenses, exclude_categories)
 
-    if not categorized_expenses and not excluded_expenses:
+    if frame.empty:
         logger.info("No expenses found for the specified period.")
         return
 
     # Display summary including excluded categories but not in totals
-    display_summary(categorized_expenses, excluded_expenses)
+    display_summary(frame)
 
 
 if __name__ == "__main__":
