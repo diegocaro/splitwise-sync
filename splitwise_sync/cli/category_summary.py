@@ -252,8 +252,9 @@ def display_summary(
 
         print(LINE_SEPARATOR)
         formatted_total = format_currency_amount(total, currency_code)
+        half_total = format_currency_amount(total / 2, currency_code)
         print(
-            f"{'TOTAL':<30} {currency_symbol} {formatted_total:>10} {100 if total > 0 else 0:>9.1f}%"
+            f"{'TOTAL':<30} {currency_symbol} {formatted_total:>10} {100 if total > 0 else 0:>9.1f}%    half = {half_total}"
         )
 
         # Show grand total if there are excluded categories
