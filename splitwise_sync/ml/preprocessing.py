@@ -8,6 +8,10 @@ from sklearn.pipeline import FeatureUnion, make_pipeline
 from .feature_extractor import DateFeatureExtractor, DescriptionFeatureExtractor
 
 
+def joined_words(text: str) -> str:
+    return "_".join([word for word in text.split(" ") if len(word) > 0]).strip("_")
+
+
 def build_preprocess(
     verbose: bool = True, stop_words: Optional[list[str]] = None
 ) -> FeatureUnion:
@@ -23,10 +27,20 @@ def build_preprocess(
             #     ),
             #     "transaction_description",
             # ),
+            # (
+            #     "merchant",
+            #     CountVectorizer(
+            #         max_features=200, ngram_range=(1, 10), stop_words=stop_words
+            #     ),
+            #     "description_merchant",
+            # ),
             (
-                "merchant",
+                "memorized_merchant",
                 CountVectorizer(
-                    max_features=200, ngram_range=(1, 10), stop_words=stop_words
+                    max_features=10000,
+                    ngram_range=(1, 1),
+                    binary=True,
+                    preprocessor=joined_words,
                 ),
                 "description_merchant",
             ),
