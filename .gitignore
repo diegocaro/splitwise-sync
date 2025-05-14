@@ -50,3 +50,10 @@ htmlcov/
 .vscode/
 *.swp
 *.swo
+
+# macOS
+.DS_Store
+
+# extra folders
+tmp/
+logs/
