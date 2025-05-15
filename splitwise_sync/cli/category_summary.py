@@ -6,11 +6,9 @@ import calendar
 import datetime
 import logging
 import sys
-from collections import defaultdict
 from typing import Dict, List, Optional, Set, Tuple, TypedDict
 
 import pandas as pd
-from splitwise.category import Category  # type: ignore
 from splitwise.expense import Expense  # type: ignore
 
 from splitwise_sync.config import DEFAULT_FRIEND_ID
@@ -133,32 +131,10 @@ def format_amount_list(amount_list: List[float], currency_code: str) -> str:
         f"{format_currency_amount(amount, currency_code):>10}" for amount in amount_list
     ]
     return "".join(formatted_amounts)
-        currency_code: str = getattr(expense, "currency_code", "USD")
-        cost_str: str = getattr(expense, "cost", "0")
-        cost: float = float(cost_str)
-        expense_date: str = getattr(expense, "date", "")  # Assuming date is a string
-
-        logger.debug(
-            f"Processing expense: {category_name} - {currency_code} - {cost} - {expense_date} - is_payment={is_payment}"
-        )
-
-        if category_name in current_exclude_categories:
-            excluded[currency_code][category_name] += cost
-        else:
-            included[currency_code][category_name] += cost
-
-    # Convert inner defaultdicts to regular dicts
-    return (
-        {currency: dict(categories) for currency, categories in included.items()},
-        {currency: dict(categories) for currency, categories in excluded.items()},
-    )
-    return out
 
 
 def _print_category_section(
     pivot: pd.DataFrame,
-    categories_data: Dict[str, float],
-    categories_data: pd.DataFrame,
     currency_symbol: str,
     currency_code: str,
     section_title: Optional[str] = None,
@@ -166,11 +142,7 @@ def _print_category_section(
 ) -> None:
     """Helper function to print a section of categories."""
     if pivot.empty:
-    if not categories_data:
-    if categories_data.empty:
         return
-
-    categories_data = categories_data.set_index("category")["cost"].to_dict()
 
     if section_title:
         print(LINE_SEPARATOR)
@@ -216,22 +188,11 @@ def display_summary(df: pd.DataFrame) -> None:
         get_label = lambda year, month: f"{calendar.month_abbr[int(month)]} {year}"
         labels = [f"{get_label(*col.split("-")):>10}" for col in pivot.columns]
         labels = "".join(labels)
-    for currency_code, categories in categorized_expenses.items():
-        total = sum(categories.values())
-        current_currency_excluded_expenses = excluded_expenses.get(currency_code, {})
-        excluded_total = sum(current_currency_excluded_expenses.values())
-    for currency_code, categories in df.groupby("currency_code"):
-        total = categories["cost"].sum()
-        currency_symbol = format_currency_symbol(currency_code)
 
         print(f"\nExpense Summary by Category [{currency_code}]:")
         print(LINE_SEPARATOR)
         print(
             f"{'Category':<30} {' '*len(currency_symbol)} {labels} {'Percentage':>10} {'Note':<10}"
-        )
-        print(f"{'Category':<30} {'Amount':>15} {'Percentage':>10} {'Note':>10}")
-        print(
-            f"{'Category':<30} {' '*len(currency_symbol)} {'Amount':>10} {'Percentage':>10} {'Note':<10}"
         )
         print(LINE_SEPARATOR)
 
@@ -241,19 +202,8 @@ def display_summary(df: pd.DataFrame) -> None:
         total = included[included.columns].sum()
         excluded_total = excluded[included.columns].sum()
 
-        currency_symbol = format_currency_symbol(currency_code)
-
-        # Print included categories
-        # Print included categories
-        included_categories = categories[~categories["is_excluded"]]
-        excluded_categories = categories[categories["is_excluded"]]
-        total = included_categories["cost"].sum()
-        excluded_total = excluded_categories["cost"].sum()
-
         _print_category_section(
             pivot=included,
-            categories_data=categories,
-            categories_data=included_categories,
             currency_symbol=currency_symbol,
             currency_code=currency_code,
             is_excluded_section=False,
@@ -261,12 +211,8 @@ def display_summary(df: pd.DataFrame) -> None:
 
         # Print excluded categories if any exist for this currency
         if not excluded.empty:
-        if current_currency_excluded_expenses:
-        if not excluded_categories.empty:
             _print_category_section(
                 pivot=excluded,
-                categories_data=current_currency_excluded_expenses,
-                categories_data=excluded_categories,
                 currency_symbol=currency_symbol,
                 currency_code=currency_code,
                 section_title="EXCLUDED CATEGORIES:",
@@ -283,8 +229,6 @@ def display_summary(df: pd.DataFrame) -> None:
         half_total = format_currency_amount(total_list[-1] / 2, currency_code)
         print(
             f"{'TOTAL':<30} {currency_symbol} {formatted_total} {100 if total_list[-1] > 0 else 0:>9.1f}% (half = {half_total})"
-            f"{'TOTAL':<30} {currency_symbol} {formatted_total:>10} {100 if total > 0 else 0:>9.1f}%    half = {half_total}"
-            f"{'TOTAL':<30} {currency_symbol} {formatted_total:>10} {100 if total > 0 else 0:>9.1f}% (half = {half_total})"
         )
 
         # Show grand total if there are excluded categories
@@ -296,10 +240,6 @@ def display_summary(df: pd.DataFrame) -> None:
             print(
                 f"{'GRAND TOTAL (with excluded):':<30} {currency_symbol} {formatted_grand_total}"
             )
-
-
-        print(LINE_SEPARATOR)
-
 
 
 def main() -> None:
@@ -338,9 +278,6 @@ def main() -> None:
         type=int,
         default=3,
         help="Number of previous periods to retrieve (default: 2)",
-        help="Categories to exclude from the summary (e.g., --exclude Insurance 'Home Services')",
-        default=["Payment", "Insurance"],
-        help="Categories to exclude from the summary (e.g., --exclude Insurance 'Home Services'). Default: Payment and Insurance",
     )
 
     args = parser.parse_args()
@@ -356,10 +293,6 @@ def main() -> None:
 
     month_name = calendar.month_name[month.month]
     logger.debug(f"Analyzing expenses for {month_name} {month.year}")
-    month_name = calendar.month_name[month]
-    logger.info(f"Analyzing expenses for {month_name} {year}")
-    month_name = calendar.month_name[month]
-    logger.debug(f"Analyzing expenses for {month_name} {year}")
 
     # Get date range for the month
     start_date, end_date = get_date_range(month, periods=args.periods)
